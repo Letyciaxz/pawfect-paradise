@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Área Administrativa | Pawfect Paradise</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-emoji">🐾</span>
+      <span class="logo-text"><strong>Pawfect <span class="brand-pink">Paradise</span></strong><small>cute stuff for cute pets</small></span>
+    </a>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="categories.html">Categories</a>
+      <a href="services.html">Services</a>
+      <a href="about.html">About Us</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+      <a href="admin.html" class="active">Admin</a>
+    </nav>
+    <div class="header-icons">
+      <a href="login.html" class="icon-btn" id="link-usuario" title="Entrar">👤</a>
+      <a href="carrinho.html" class="icon-btn">🛒<span class="cart-count">0</span></a>
+      <button class="menu-toggle" aria-label="Abrir menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<div class="page-header">
+  <div class="container">
+    <h1>Área Administrativa</h1>
+    <p class="breadcrumb" id="aviso-tipo"></p>
+  </div>
+</div>
+
+<main class="container secao" style="padding-top:0;">
+  <div class="mensagem" id="mensagem"></div>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <a href="#" class="aba-link active" data-aba="produtos">📦 Produtos</a>
+      <a href="#" class="aba-link" data-aba="categorias">🏷️ Categorias</a>
+      <a href="#" class="aba-link" data-aba="servicos">✂️ Serviços</a>
+      <a href="#" class="aba-link" data-aba="pedidos">🛍️ Pedidos</a>
+      <a href="#" class="aba-link" data-aba="agendamentos">📅 Agendamentos</a>
+      <a href="#" class="aba-link" data-aba="usuarios" id="aba-usuarios-link">👥 Usuários</a>
+    </aside>
+
+    <div class="admin-content">
+      <!-- PRODUTOS -->
+      <section id="aba-produtos" class="aba">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <h2>Produtos</h2>
+          <button class="btn btn-primary btn-small" id="btn-novo-produto">+ Novo Produto</button>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="admin-table">
+            <thead><tr><th>Imagem</th><th>Nome</th><th>Categoria</th><th>Preço</th><th>Estoque</th><th>Status</th><th>Ações</th></tr></thead>
+            <tbody id="tbody-produtos"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- CATEGORIAS -->
+      <section id="aba-categorias" class="aba" style="display:none;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <h2>Categorias</h2>
+          <button class="btn btn-primary btn-small" id="btn-nova-categoria">+ Nova Categoria</button>
+        </div>
+        <table class="admin-table">
+          <thead><tr><th>Nome</th><th>Descrição</th><th>Ações</th></tr></thead>
+          <tbody id="tbody-categorias"></tbody>
+        </table>
+      </section>
+
+      <!-- SERVIÇOS -->
+      <section id="aba-servicos" class="aba" style="display:none;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <h2>Serviços</h2>
+          <button class="btn btn-primary btn-small" id="btn-novo-servico">+ Novo Serviço</button>
+        </div>
+        <table class="admin-table">
+          <thead><tr><th>Nome</th><th>Preço</th><th>Duração</th><th>Ações</th></tr></thead>
+          <tbody id="tbody-servicos"></tbody>
+        </table>
+      </section>
+
+      <!-- PEDIDOS -->
+      <section id="aba-pedidos" class="aba" style="display:none;">
+        <h2 style="margin-bottom:16px;">Pedidos</h2>
+        <table class="admin-table">
+          <thead><tr><th>#</th><th>Cliente</th><th>Data</th><th>Total</th><th>Status</th></tr></thead>
+          <tbody id="tbody-pedidos"></tbody>
+        </table>
+      </section>
+
+      <!-- AGENDAMENTOS -->
+      <section id="aba-agendamentos" class="aba" style="display:none;">
+        <h2 style="margin-bottom:16px;">Agendamentos</h2>
+        <table class="admin-table">
+          <thead><tr><th>Cliente</th><th>Pet</th><th>Serviço</th><th>Data</th><th>Status</th></tr></thead>
+          <tbody id="tbody-agendamentos"></tbody>
+        </table>
+      </section>
+
+      <!-- USUÁRIOS -->
+      <section id="aba-usuarios" class="aba" style="display:none;">
+        <h2 style="margin-bottom:16px;">Usuários</h2>
+        <table class="admin-table">
+          <thead><tr><th>Nome</th><th>E-mail</th><th>Tipo</th><th>Ações</th></tr></thead>
+          <tbody id="tbody-usuarios"></tbody>
+        </table>
+      </section>
+    </div>
+  </div>
+</main>
+
+<!-- MODAL PRODUTO -->
+<div class="modal-overlay" id="modal-produto">
+  <div class="modal-box">
+    <h3 id="titulo-modal-produto">Novo Produto</h3>
+    <form id="form-produto">
+      <input type="hidden" id="produto-id">
+      <div class="campo"><label>Nome <span class="obrigatorio">*</span></label><input type="text" id="produto-nome" required></div>
+      <div class="campo"><label>Descrição</label><textarea id="produto-descricao"></textarea></div>
+      <div class="campo"><label>Preço (R$) <span class="obrigatorio">*</span></label><input type="number" id="produto-preco" step="0.01" min="0" required></div>
+      <div class="campo"><label>Estoque</label><input type="number" id="produto-estoque" min="0" value="0"></div>
+      <div class="campo"><label>URL da imagem</label><input type="text" id="produto-imagem" placeholder="https://..."></div>
+      <div class="campo"><label>Categoria</label><select id="produto-categoria"></select></div>
+      <div class="campo"><label>Status</label>
+        <select id="produto-status"><option value="ativo">Ativo</option><option value="inativo">Inativo</option></select>
+      </div>
+      <div class="modal-acoes">
+        <button type="button" class="btn btn-secondary" onclick="fecharModal('modal-produto')">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL CATEGORIA -->
+<div class="modal-overlay" id="modal-categoria">
+  <div class="modal-box">
+    <h3 id="titulo-modal-categoria">Nova Categoria</h3>
+    <form id="form-categoria">
+      <input type="hidden" id="categoria-id">
+      <div class="campo"><label>Nome <span class="obrigatorio">*</span></label><input type="text" id="categoria-nome" required></div>
+      <div class="campo"><label>Descrição</label><textarea id="categoria-descricao"></textarea></div>
+      <div class="campo"><label>URL da imagem</label><input type="text" id="categoria-imagem" placeholder="https://..."></div>
+      <div class="modal-acoes">
+        <button type="button" class="btn btn-secondary" onclick="fecharModal('modal-categoria')">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL SERVIÇO -->
+<div class="modal-overlay" id="modal-servico">
+  <div class="modal-box">
+    <h3 id="titulo-modal-servico">Novo Serviço</h3>
+    <form id="form-servico">
+      <input type="hidden" id="servico-id">
+      <div class="campo"><label>Nome <span class="obrigatorio">*</span></label><input type="text" id="servico-nome" required></div>
+      <div class="campo"><label>Descrição</label><textarea id="servico-descricao"></textarea></div>
+      <div class="campo"><label>Preço (R$) <span class="obrigatorio">*</span></label><input type="number" id="servico-preco" step="0.01" min="0" required></div>
+      <div class="campo"><label>Duração (minutos)</label><input type="number" id="servico-duracao" min="0"></div>
+      <div class="campo"><label>URL da imagem</label><input type="text" id="servico-imagem" placeholder="https://..."></div>
+      <div class="modal-acoes">
+        <button type="button" class="btn btn-secondary" onclick="fecharModal('modal-servico')">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container footer-bottom">&copy; 2026 Pawfect Paradise. Todos os direitos reservados. Projeto acadêmico. Grupo: Jessica Hellen, Maria Leticia e Sarah Rebeca.</div>
+</footer>
+
+<script src="js/app.js"></script>
+<script>
+let usuarioLogado = null;
+let categoriasCache = [];
+
+/* ---------- NAVEGAÇÃO ENTRE ABAS ---------- */
+document.querySelectorAll('.aba-link').forEach((link) => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.querySelectorAll('.aba-link').forEach((l) => l.classList.remove('active'));
+    document.querySelectorAll('.aba').forEach((a) => a.style.display = 'none');
+    link.classList.add('active');
+    document.querySelector('#aba-' + link.dataset.aba).style.display = 'block';
+  });
+});
+
+function abrirModal(id) { document.querySelector('#' + id).classList.add('aberto'); }
+function fecharModal(id) {
+  document.querySelector('#' + id).classList.remove('aberto');
+  document.querySelector('#' + id + ' form').reset();
+}
+
+function badgeClasse(status) {
+  return 'badge badge-' + status.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+/* ---------- PRODUTOS ---------- */
+async function carregarProdutosAdmin() {
+  const { produtos } = await get('/produtos?porPagina=200');
+  document.querySelector('#tbody-produtos').innerHTML = produtos.map((p) => `
+    <tr>
+      <td><img src="${p.imagem}" alt="${p.nome}" style="width:44px;height:44px;object-fit:cover;"></td>
+      <td>${p.nome}</td>
+      <td>${p.categoria_nome || '-'}</td>
+      <td>${formatarPreco(p.preco)}</td>
+      <td>${p.estoque}</td>
+      <td><span class="badge badge-${p.status}">${p.status}</span></td>
+      <td class="acoes-tabela">
+        <button class="btn-secondary" onclick='abrirEdicaoProduto(${JSON.stringify(p)})'>Editar</button>
+        <button class="btn-danger" onclick="excluirProduto(${p.id})">Excluir</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function preencherSelectCategorias() {
+  document.querySelector('#produto-categoria').innerHTML =
+    '<option value="">Sem categoria</option>' + categoriasCache.map((c) => `<option value="${c.id}">${c.nome}</option>`).join('');
+}
+
+document.querySelector('#btn-novo-produto').addEventListener('click', () => {
+  document.querySelector('#titulo-modal-produto').textContent = 'Novo Produto';
+  document.querySelector('#produto-id').value = '';
+  preencherSelectCategorias();
+  abrirModal('modal-produto');
+});
+
+function abrirEdicaoProduto(p) {
+  document.querySelector('#titulo-modal-produto').textContent = 'Editar Produto';
+  preencherSelectCategorias();
+  document.querySelector('#produto-id').value = p.id;
+  document.querySelector('#produto-nome').value = p.nome;
+  document.querySelector('#produto-descricao').value = p.descricao || '';
+  document.querySelector('#produto-preco').value = p.preco;
+  document.querySelector('#produto-estoque').value = p.estoque;
+  document.querySelector('#produto-imagem').value = p.imagem || '';
+  document.querySelector('#produto-categoria').value = p.categoria_id || '';
+  document.querySelector('#produto-status').value = p.status;
+  abrirModal('modal-produto');
+}
+
+document.querySelector('#form-produto').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const msg = document.querySelector('#mensagem');
+  const id = document.querySelector('#produto-id').value;
+  const corpo = {
+    nome: document.querySelector('#produto-nome').value,
+    descricao: document.querySelector('#produto-descricao').value,
+    preco: Number(document.querySelector('#produto-preco').value),
+    estoque: Number(document.querySelector('#produto-estoque').value),
+    imagem: document.querySelector('#produto-imagem').value,
+    categoria_id: document.querySelector('#produto-categoria').value || null,
+    status: document.querySelector('#produto-status').value,
+  };
+  try {
+    if (id) { await put('/produtos/' + id, corpo); mostrarMensagem(msg, 'Produto atualizado com sucesso!'); }
+    else { await post('/produtos', corpo); mostrarMensagem(msg, 'Produto cadastrado com sucesso!'); }
+    fecharModal('modal-produto');
+    carregarProdutosAdmin();
+  } catch (err) { mostrarMensagem(msg, err.message, 'erro'); }
+});
+
+async function excluirProduto(id) {
+  if (!confirm('Tem certeza que deseja excluir este produto?')) return;
+  try {
+    await del('/produtos/' + id);
+    mostrarMensagem(document.querySelector('#mensagem'), 'Produto excluído com sucesso!');
+    carregarProdutosAdmin();
+  } catch (err) { mostrarMensagem(document.querySelector('#mensagem'), err.message, 'erro'); }
+}
+
+/* ---------- CATEGORIAS ---------- */
+async function carregarCategoriasAdmin() {
+  categoriasCache = await get('/categorias');
+  document.querySelector('#tbody-categorias').innerHTML = categoriasCache.map((c) => `
+    <tr>
+      <td>${c.nome}</td>
+      <td>${c.descricao || '-'}</td>
+      <td class="acoes-tabela">
+        <button class="btn-secondary" onclick='abrirEdicaoCategoria(${JSON.stringify(c)})'>Editar</button>
+        <button class="btn-danger" onclick="excluirCategoria(${c.id})">Excluir</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+document.querySelector('#btn-nova-categoria').addEventListener('click', () => {
+  document.querySelector('#titulo-modal-categoria').textContent = 'Nova Categoria';
+  document.querySelector('#categoria-id').value = '';
+  abrirModal('modal-categoria');
+});
+
+function abrirEdicaoCategoria(c) {
+  document.querySelector('#titulo-modal-categoria').textContent = 'Editar Categoria';
+  document.querySelector('#categoria-id').value = c.id;
+  document.querySelector('#categoria-nome').value = c.nome;
+  document.querySelector('#categoria-descricao').value = c.descricao || '';
+  document.querySelector('#categoria-imagem').value = c.imagem || '';
+  abrirModal('modal-categoria');
+}
+
+document.querySelector('#form-categoria').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const msg = document.querySelector('#mensagem');
+  const id = document.querySelector('#categoria-id').value;
+  const corpo = {
+    nome: document.querySelector('#categoria-nome').value,
+    descricao: document.querySelector('#categoria-descricao').value,
+    imagem: document.querySelector('#categoria-imagem').value,
+  };
+  try {
+    if (id) { await put('/categorias/' + id, corpo); mostrarMensagem(msg, 'Categoria atualizada com sucesso!'); }
+    else { await post('/categorias', corpo); mostrarMensagem(msg, 'Categoria cadastrada com sucesso!'); }
+    fecharModal('modal-categoria');
+    carregarCategoriasAdmin();
+  } catch (err) { mostrarMensagem(msg, err.message, 'erro'); }
+});
+
+async function excluirCategoria(id) {
+  if (!confirm('Tem certeza que deseja excluir esta categoria?')) return;
+  try {
+    await del('/categorias/' + id);
+    mostrarMensagem(document.querySelector('#mensagem'), 'Categoria excluída com sucesso!');
+    carregarCategoriasAdmin();
+  } catch (err) { mostrarMensagem(document.querySelector('#mensagem'), err.message, 'erro'); }
+}
+
+/* ---------- SERVIÇOS ---------- */
+async function carregarServicosAdmin() {
+  const servicos = await get('/servicos');
+  document.querySelector('#tbody-servicos').innerHTML = servicos.map((s) => `
+    <tr>
+      <td>${s.nome}</td>
+      <td>${formatarPreco(s.preco)}</td>
+      <td>${s.duracao || '-'} min</td>
+      <td class="acoes-tabela">
+        <button class="btn-secondary" onclick='abrirEdicaoServico(${JSON.stringify(s)})'>Editar</button>
+        <button class="btn-danger" onclick="excluirServico(${s.id})">Excluir</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+document.querySelector('#btn-novo-servico').addEventListener('click', () => {
+  document.querySelector('#titulo-modal-servico').textContent = 'Novo Serviço';
+  document.querySelector('#servico-id').value = '';
+  abrirModal('modal-servico');
+});
+
+function abrirEdicaoServico(s) {
+  document.querySelector('#titulo-modal-servico').textContent = 'Editar Serviço';
+  document.querySelector('#servico-id').value = s.id;
+  document.querySelector('#servico-nome').value = s.nome;
+  document.querySelector('#servico-descricao').value = s.descricao || '';
+  document.querySelector('#servico-preco').value = s.preco;
+  document.querySelector('#servico-duracao').value = s.duracao || '';
+  document.querySelector('#servico-imagem').value = s.imagem || '';
+  abrirModal('modal-servico');
+}
+
+document.querySelector('#form-servico').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const msg = document.querySelector('#mensagem');
+  const id = document.querySelector('#servico-id').value;
+  const corpo = {
+    nome: document.querySelector('#servico-nome').value,
+    descricao: document.querySelector('#servico-descricao').value,
+    preco: Number(document.querySelector('#servico-preco').value),
+    duracao: Number(document.querySelector('#servico-duracao').value) || null,
+    imagem: document.querySelector('#servico-imagem').value,
+  };
+  try {
+    if (id) { await put('/servicos/' + id, corpo); mostrarMensagem(msg, 'Serviço atualizado com sucesso!'); }
+    else { await post('/servicos', corpo); mostrarMensagem(msg, 'Serviço cadastrado com sucesso!'); }
+    fecharModal('modal-servico');
+    carregarServicosAdmin();
+  } catch (err) { mostrarMensagem(msg, err.message, 'erro'); }
+});
+
+async function excluirServico(id) {
+  if (!confirm('Tem certeza que deseja excluir este serviço?')) return;
+  try {
+    await del('/servicos/' + id);
+    mostrarMensagem(document.querySelector('#mensagem'), 'Serviço excluído com sucesso!');
+    carregarServicosAdmin();
+  } catch (err) { mostrarMensagem(document.querySelector('#mensagem'), err.message, 'erro'); }
+}
+
+/* ---------- PEDIDOS ---------- */
+const STATUS_PEDIDO = ['Pendente', 'Pago', 'Enviado', 'Entregue', 'Cancelado'];
+async function carregarPedidosAdmin() {
+  const pedidos = await get('/pedidos');
+  document.querySelector('#tbody-pedidos').innerHTML = pedidos.map((p) => `
+    <tr>
+      <td>#${p.id}</td>
+      <td>${p.cliente_nome}</td>
+      <td>${new Date(p.data).toLocaleDateString('pt-BR')}</td>
+      <td>${formatarPreco(p.valor_total)}</td>
+      <td>
+        <select onchange="atualizarStatusPedido(${p.id}, this.value)">
+          ${STATUS_PEDIDO.map((s) => `<option value="${s}" ${s === p.status ? 'selected' : ''}>${s}</option>`).join('')}
+        </select>
+      </td>
+    </tr>
+  `).join('');
+}
+
+async function atualizarStatusPedido(id, status) {
+  try {
+    await put('/pedidos/' + id, { status });
+    mostrarMensagem(document.querySelector('#mensagem'), 'Status do pedido atualizado com sucesso!');
+  } catch (err) { mostrarMensagem(document.querySelector('#mensagem'), err.message, 'erro'); }
+}
+
+/* ---------- AGENDAMENTOS ---------- */
+const STATUS_AGENDAMENTO = ['Agendado', 'Confirmado', 'Concluído', 'Cancelado'];
+async function carregarAgendamentosAdmin() {
+  const agendamentos = await get('/agendamentos');
+  document.querySelector('#tbody-agendamentos').innerHTML = agendamentos.map((a) => `
+    <tr>
+      <td>${a.cliente_nome}</td>
+      <td>${a.pet_nome}</td>
+      <td>${a.servico_nome}</td>
+      <td>${new Date(a.data + 'T00:00:00').toLocaleDateString('pt-BR')} ${a.horario}</td>
+      <td>
+        <select onchange="atualizarStatusAgendamento(${a.id}, this.value)">
+          ${STATUS_AGENDAMENTO.map((s) => `<option value="${s}" ${s === a.status ? 'selected' : ''}>${s}</option>`).join('')}
+        </select>
+      </td>
+    </tr>
+  `).join('');
+}
+
+async function atualizarStatusAgendamento(id, status) {
+  try {
+    await put('/agendamentos/' + id, { status });
+    mostrarMensagem(document.querySelector('#mensagem'), 'Status do agendamento atualizado com sucesso!');
+  } catch (err) { mostrarMensagem(document.querySelector('#mensagem'), err.message, 'erro'); }
+}
+
+/* ---------- USUÁRIOS (somente admin) ---------- */
+async function carregarUsuariosAdmin() {
+  try {
+    const usuarios = await get('/usuarios');
+    document.querySelector('#tbody-usuarios').innerHTML = usuarios.map((u) => `
+      <tr>
+        <td>${u.nome}</td>
+        <td>${u.email}</td>
+        <td>
+          <select onchange="atualizarTipoUsuario(${u.id}, this.value)" ${u.id === usuarioLogado.id ? 'disabled' : ''}>
+            <option value="cliente" ${u.tipo === 'cliente' ? 'selected' : ''}>Cliente</option>
+            <option value="funcionario" ${u.tipo === 'funcionario' ? 'selected' : ''}>Funcionário</option>
+            <option value="admin" ${u.tipo === 'admin' ? 'selected' : ''}>Admin</option>
+          </select>
+        </td>
+        <td class="acoes-tabela">
+          <button class="btn-danger" ${u.id === usuarioLogado.id ? 'disabled' : ''} onclick="excluirUsuario(${u.id})">Excluir</button>
+        </td>
+      </tr>
+    `).join('');
+  } catch {
+    document.querySelector('#aba-usuarios-link').style.display = 'none';
+  }
+}
+
+async function atualizarTipoUsuario(id, tipo) {
+  try {
+    await put('/usuarios/' + id, { tipo });
+    mostrarMensagem(document.querySelector('#mensagem'), 'Permissão do usuário atualizada com sucesso!');
+  } catch (err) { mostrarMensagem(document.querySelector('#mensagem'), err.message, 'erro'); }
+}
+
+async function excluirUsuario(id) {
+  if (!confirm('Tem certeza que deseja excluir este usuário?')) return;
+  try {
+    await del('/usuarios/' + id);
+    mostrarMensagem(document.querySelector('#mensagem'), 'Usuário excluído com sucesso!');
+    carregarUsuariosAdmin();
+  } catch (err) { mostrarMensagem(document.querySelector('#mensagem'), err.message, 'erro'); }
+}
+
+/* ---------- INICIALIZAÇÃO ---------- */
+async function inicializarAdmin() {
+  usuarioLogado = await exigirStaffOuRedirecionar();
+  if (!usuarioLogado) return;
+
+  document.querySelector('#aviso-tipo').textContent = `Logado como ${usuarioLogado.nome} (${usuarioLogado.tipo})`;
+
+  if (usuarioLogado.tipo !== 'admin') {
+    // funcionário não gerencia produtos/categorias/serviços/usuários, só vê pedidos e agendamentos
+    document.querySelectorAll('[data-aba="produtos"], [data-aba="categorias"], [data-aba="servicos"], [data-aba="usuarios"]').forEach((el) => el.style.display = 'none');
+    document.querySelector('[data-aba="pedidos"]').click();
+  }
+
+  await Promise.all([
+    carregarProdutosAdmin(),
+    carregarCategoriasAdmin(),
+    carregarServicosAdmin(),
+    carregarPedidosAdmin(),
+    carregarAgendamentosAdmin(),
+  ]);
+  if (usuarioLogado.tipo === 'admin') carregarUsuariosAdmin();
+}
+
+inicializarAdmin();
+</script>
+</body>
+</html>

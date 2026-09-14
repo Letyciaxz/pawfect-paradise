@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop | Pawfect Paradise</title>
+<meta name="description" content="Explore todos os produtos da Pawfect Paradise para cães e gatos.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-emoji">🐾</span>
+      <span class="logo-text"><strong>Pawfect <span class="brand-pink">Paradise</span></strong><small>cute stuff for cute pets</small></span>
+    </a>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html" class="active">Shop</a>
+      <a href="categories.html">Categories</a>
+      <a href="services.html">Services</a>
+      <a href="about.html">About Us</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+      <a href="admin.html" id="link-admin" style="display:none;">Admin</a>
+    </nav>
+    <div class="header-icons">
+      <a href="shop.html" class="icon-btn" title="Pesquisar" aria-label="Pesquisar produtos">🔍</a>
+      <a href="login.html" class="icon-btn" id="link-usuario" title="Entrar" aria-label="Entrar ou ver perfil">👤</a>
+      <a href="carrinho.html" class="icon-btn" aria-label="Ver carrinho">🛒<span class="cart-count">0</span></a>
+      <button class="menu-toggle" aria-label="Abrir menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<div class="page-header">
+  <div class="container">
+    <h1>Shop</h1>
+    <p class="breadcrumb">Home / Shop</p>
+  </div>
+</div>
+
+<main class="container secao" style="padding-top:0;">
+  <div class="barra-busca">
+    <input type="text" id="campo-busca" placeholder="Buscar produtos... (ex: ração, brinquedo)">
+    <button class="btn btn-primary" id="btn-buscar">🔍 Buscar</button>
+  </div>
+
+  <div class="shop-layout">
+    <aside class="filtros">
+      <h4>Categorias</h4>
+      <div id="filtro-categorias">
+        <label><input type="radio" name="categoria" value="" checked> Todas</label>
+      </div>
+      <h4>Ordenar por</h4>
+      <select id="filtro-ordenar">
+        <option value="">Mais recentes</option>
+        <option value="preco_asc">Preço: menor para maior</option>
+        <option value="preco_desc">Preço: maior para menor</option>
+        <option value="nome_asc">Nome: A-Z</option>
+        <option value="nome_desc">Nome: Z-A</option>
+      </select>
+    </aside>
+
+    <div style="flex:1;">
+      <div class="produtos-grid" id="lista-produtos"></div>
+      <div class="empty-state" id="estado-vazio" style="display:none;">
+        <div class="emoji">🐾</div>
+        <p>Nenhum produto encontrado com esses filtros.</p>
+      </div>
+      <div class="paginacao" id="paginacao"></div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-bottom">&copy; 2026 Pawfect Paradise. Todos os direitos reservados. Projeto acadêmico. Grupo: Jessica Hellen, Maria Leticia e Sarah Rebeca.</div>
+</footer>
+
+<script src="js/app.js"></script>
+<script>
+const params = new URLSearchParams(window.location.search);
+let paginaAtual = 1;
+const porPagina = 12;
+
+async function carregarFiltroCategorias() {
+  const categorias = await get('/categorias');
+  const container = document.querySelector('#filtro-categorias');
+  const categoriaSelecionada = params.get('categoria_id') || '';
+  container.innerHTML = `<label><input type="radio" name="categoria" value="" ${!categoriaSelecionada ? 'checked' : ''}> Todas</label>` +
+    categorias.map((c) => `
+      <label><input type="radio" name="categoria" value="${c.id}" ${String(c.id) === categoriaSelecionada ? 'checked' : ''}> ${c.nome}</label>
+    `).join('');
+
+  container.querySelectorAll('input').forEach((input) => {
+    input.addEventListener('change', () => { paginaAtual = 1; carregarProdutos(); });
+  });
+}
+
+function montarQuery() {
+  const busca = document.querySelector('#campo-busca').value.trim();
+  const categoria = document.querySelector('input[name="categoria"]:checked')?.value;
+  const ordenar = document.querySelector('#filtro-ordenar').value;
+  const qs = new URLSearchParams();
+  if (busca) qs.set('busca', busca);
+  if (categoria) qs.set('categoria_id', categoria);
+  if (ordenar) qs.set('ordenar', ordenar);
+  qs.set('pagina', paginaAtual);
+  qs.set('porPagina', porPagina);
+  return qs.toString();
+}
+
+async function carregarProdutos() {
+  const { produtos } = await get('/produtos?' + montarQuery());
+  const grid = document.querySelector('#lista-produtos');
+  const vazio = document.querySelector('#estado-vazio');
+
+  vazio.style.display = produtos.length === 0 ? 'block' : 'none';
+  grid.innerHTML = produtos.map((p) => `
+    <div class="produto-card">
+      <a href="product.html?id=${p.id}"><img src="${p.imagem}" alt="${p.nome}"></a>
+      <div class="produto-card-body">
+        <span class="produto-categoria">${p.categoria_nome || ''}</span>
+        <a href="product.html?id=${p.id}"><h3 class="produto-nome">${p.nome}</h3></a>
+        <span class="produto-preco">${formatarPreco(p.preco)}</span>
+      </div>
+      <div class="produto-card-footer">
+        <button class="btn btn-primary btn-small" style="width:100%;" onclick="adicionarAoCarrinho(${p.id}); this.textContent='Adicionado! ✓';">Adicionar ao Carrinho</button>
+      </div>
+    </div>
+  `).join('');
+
+  // paginação simples: mostra botão "próxima página" se a página veio cheia
+  const paginacao = document.querySelector('#paginacao');
+  let html = '';
+  for (let i = 1; i <= paginaAtual; i++) {
+    html += `<button class="${i === paginaAtual ? 'active' : ''}" onclick="irParaPagina(${i})">${i}</button>`;
+  }
+  if (produtos.length === porPagina) {
+    html += `<button onclick="irParaPagina(${paginaAtual + 1})">›</button>`;
+  }
+  paginacao.innerHTML = html;
+}
+
+function irParaPagina(n) {
+  paginaAtual = n;
+  carregarProdutos();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.querySelector('#btn-buscar').addEventListener('click', () => { paginaAtual = 1; carregarProdutos(); });
+document.querySelector('#campo-busca').addEventListener('keyup', (e) => { if (e.key === 'Enter') { paginaAtual = 1; carregarProdutos(); } });
+document.querySelector('#filtro-ordenar').addEventListener('change', () => { paginaAtual = 1; carregarProdutos(); });
+
+if (params.get('busca')) document.querySelector('#campo-busca').value = params.get('busca');
+
+carregarFiltroCategorias().then(carregarProdutos);
+</script>
+</body>
+</html>

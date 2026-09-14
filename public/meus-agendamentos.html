@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meus Agendamentos | Pawfect Paradise</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-emoji">🐾</span>
+      <span class="logo-text"><strong>Pawfect <span class="brand-pink">Paradise</span></strong><small>cute stuff for cute pets</small></span>
+    </a>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="categories.html">Categories</a>
+      <a href="services.html">Services</a>
+      <a href="about.html">About Us</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+      <a href="admin.html" id="link-admin" style="display:none;">Admin</a>
+    </nav>
+    <div class="header-icons">
+      <a href="shop.html" class="icon-btn" title="Pesquisar">🔍</a>
+      <a href="login.html" class="icon-btn" id="link-usuario" title="Entrar">👤</a>
+      <a href="carrinho.html" class="icon-btn">🛒<span class="cart-count">0</span></a>
+      <button class="menu-toggle" aria-label="Abrir menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<div class="page-header">
+  <div class="container">
+    <h1>Meus Agendamentos</h1>
+    <p class="breadcrumb">Home / Meus Agendamentos</p>
+  </div>
+</div>
+
+<main class="container secao" style="padding-top:0;">
+  <div class="tabs">
+    <a href="perfil.html" class="tab-btn">Meus Dados</a>
+    <a href="pets.html" class="tab-btn">Meus Pets</a>
+    <a href="meus-pedidos.html" class="tab-btn">Meus Pedidos</a>
+    <a href="meus-agendamentos.html" class="tab-btn active">Meus Agendamentos</a>
+  </div>
+
+  <div class="mensagem" id="mensagem"></div>
+  <div style="text-align:right; margin-bottom:20px;">
+    <a href="agendamento.html" class="btn btn-primary">+ Novo Agendamento</a>
+  </div>
+
+  <div id="lista-agendamentos"></div>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-bottom">&copy; 2026 Pawfect Paradise. Todos os direitos reservados. Projeto acadêmico. Grupo: Jessica Hellen, Maria Leticia e Sarah Rebeca.</div>
+</footer>
+
+<script src="js/app.js"></script>
+<script>
+function classeBadge(status) {
+  return 'badge badge-' + status.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+async function carregar() {
+  const usuario = await exigirLoginOuRedirecionar();
+  if (!usuario) return;
+
+  const agendamentos = await get('/agendamentos');
+  const container = document.querySelector('#lista-agendamentos');
+  if (agendamentos.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="emoji">📅</div><p>Você ainda não tem agendamentos.</p></div>`;
+    return;
+  }
+
+  container.innerHTML = agendamentos.map((a) => `
+    <div class="card-lista">
+      <div style="flex:1; min-width:200px;">
+        <strong>${a.servico_nome}</strong> para <strong>${a.pet_nome}</strong>
+        <br><small>${new Date(a.data + 'T00:00:00').toLocaleDateString('pt-BR')} às ${a.horario}</small>
+      </div>
+      <span class="${classeBadge(a.status)}">${a.status}</span>
+      ${a.status === 'Agendado' || a.status === 'Confirmado'
+        ? `<button class="btn btn-danger btn-small" onclick="cancelar(${a.id})">Cancelar</button>`
+        : ''}
+    </div>
+  `).join('');
+}
+
+async function cancelar(id) {
+  if (!confirm('Tem certeza que deseja cancelar este agendamento?')) return;
+  const msg = document.querySelector('#mensagem');
+  try {
+    await put('/agendamentos/' + id, { status: 'Cancelado' });
+    mostrarMensagem(msg, 'Agendamento cancelado.', 'sucesso');
+    carregar();
+  } catch (err) {
+    mostrarMensagem(msg, err.message, 'erro');
+  }
+}
+
+carregar();
+</script>
+</body>
+</html>

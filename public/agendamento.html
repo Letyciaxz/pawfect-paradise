@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agendar Serviço | Pawfect Paradise</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-emoji">🐾</span>
+      <span class="logo-text"><strong>Pawfect <span class="brand-pink">Paradise</span></strong><small>cute stuff for cute pets</small></span>
+    </a>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="categories.html">Categories</a>
+      <a href="services.html" class="active">Services</a>
+      <a href="about.html">About Us</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+      <a href="admin.html" id="link-admin" style="display:none;">Admin</a>
+    </nav>
+    <div class="header-icons">
+      <a href="shop.html" class="icon-btn" title="Pesquisar">🔍</a>
+      <a href="login.html" class="icon-btn" id="link-usuario" title="Entrar">👤</a>
+      <a href="carrinho.html" class="icon-btn">🛒<span class="cart-count">0</span></a>
+      <button class="menu-toggle" aria-label="Abrir menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="form-card" style="max-width:520px;">
+    <h2>📅 Agendar Serviço</h2>
+    <p class="subtitulo">Informe seus dados, o serviço e o melhor horário</p>
+    <div class="mensagem" id="mensagem"></div>
+    <form id="form-agendamento">
+      <div class="campo">
+        <label for="nome">Seu nome <span class="obrigatorio">*</span></label>
+        <input type="text" id="nome" required>
+      </div>
+      <div class="campo">
+        <label for="contato">Telefone ou WhatsApp <span class="obrigatorio">*</span></label>
+        <input type="tel" id="contato" required>
+      </div>
+      <div class="campo">
+        <label for="pet">Nome do pet <span class="obrigatorio">*</span></label>
+        <input type="text" id="pet" required>
+      </div>
+      <div class="campo">
+        <label for="servico">Serviço <span class="obrigatorio">*</span></label>
+        <select id="servico" required></select>
+      </div>
+      <div class="campo">
+        <label for="data">Data <span class="obrigatorio">*</span></label>
+        <input type="date" id="data" required>
+      </div>
+      <div class="campo">
+        <label for="horario">Horário <span class="obrigatorio">*</span></label>
+        <input type="time" id="horario" required>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Confirmar Agendamento</button>
+    </form>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-bottom">&copy; 2026 Pawfect Paradise. Todos os direitos reservados. Projeto acadêmico. Grupo: Jessica Hellen, Maria Leticia e Sarah Rebeca.</div>
+</footer>
+
+<script src="js/app.js"></script>
+<script>
+async function carregarFormulario() {
+  const servicos = await get('/servicos');
+  document.querySelector('#servico').innerHTML = servicos.map((s) => `<option value="${s.id}">${s.nome} — ${formatarPreco(s.preco)}</option>`).join('');
+
+  const servicoPreSelecionado = new URLSearchParams(window.location.search).get('servico_id');
+  if (servicoPreSelecionado) document.querySelector('#servico').value = servicoPreSelecionado;
+
+  // não permite escolher data no passado
+  document.querySelector('#data').min = new Date().toISOString().split('T')[0];
+}
+
+document.querySelector('#form-agendamento').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const msg = document.querySelector('#mensagem');
+  const agendamentos = JSON.parse(localStorage.getItem('pawfect_agendamentos') || '[]');
+  agendamentos.push({
+    id: Date.now(),
+    nome: document.querySelector('#nome').value,
+    contato: document.querySelector('#contato').value,
+    pet: document.querySelector('#pet').value,
+    servico: document.querySelector('#servico').selectedOptions[0].textContent,
+    data: document.querySelector('#data').value,
+    horario: document.querySelector('#horario').value,
+  });
+  localStorage.setItem('pawfect_agendamentos', JSON.stringify(agendamentos));
+  mostrarMensagem(msg, 'Solicitação de agendamento enviada com sucesso!', 'sucesso');
+  e.target.reset();
+});
+
+carregarFormulario();
+</script>
+</body>
+</html>

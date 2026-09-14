@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meus Pets | Pawfect Paradise</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-emoji">🐾</span>
+      <span class="logo-text"><strong>Pawfect <span class="brand-pink">Paradise</span></strong><small>cute stuff for cute pets</small></span>
+    </a>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="categories.html">Categories</a>
+      <a href="services.html">Services</a>
+      <a href="about.html">About Us</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+      <a href="admin.html" id="link-admin" style="display:none;">Admin</a>
+    </nav>
+    <div class="header-icons">
+      <a href="shop.html" class="icon-btn" title="Pesquisar">🔍</a>
+      <a href="login.html" class="icon-btn" id="link-usuario" title="Entrar">👤</a>
+      <a href="carrinho.html" class="icon-btn">🛒<span class="cart-count">0</span></a>
+      <button class="menu-toggle" aria-label="Abrir menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<div class="page-header">
+  <div class="container">
+    <h1>Meus Pets</h1>
+    <p class="breadcrumb">Home / Meus Pets</p>
+  </div>
+</div>
+
+<main class="container secao" style="padding-top:0;">
+  <div class="tabs">
+    <a href="perfil.html" class="tab-btn">Meus Dados</a>
+    <a href="pets.html" class="tab-btn active">Meus Pets</a>
+    <a href="meus-pedidos.html" class="tab-btn">Meus Pedidos</a>
+    <a href="meus-agendamentos.html" class="tab-btn">Meus Agendamentos</a>
+  </div>
+
+  <div class="mensagem" id="mensagem"></div>
+  <div style="text-align:right; margin-bottom:20px;">
+    <button class="btn btn-primary" id="btn-novo-pet">+ Cadastrar Pet</button>
+  </div>
+
+  <div id="lista-pets"></div>
+</main>
+
+<!-- MODAL DE CADASTRO/EDIÇÃO -->
+<div class="modal-overlay" id="modal-pet">
+  <div class="modal-box">
+    <h3 id="modal-titulo">Cadastrar Pet</h3>
+    <form id="form-pet">
+      <input type="hidden" id="pet-id">
+      <div class="campo">
+        <label for="pet-nome">Nome <span class="obrigatorio">*</span></label>
+        <input type="text" id="pet-nome" required>
+      </div>
+      <div class="campo">
+        <label for="pet-especie">Espécie <span class="obrigatorio">*</span></label>
+        <select id="pet-especie" required>
+          <option value="Cachorro">Cachorro</option>
+          <option value="Gato">Gato</option>
+          <option value="Outro">Outro</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label for="pet-raca">Raça</label>
+        <input type="text" id="pet-raca">
+      </div>
+      <div class="campo">
+        <label for="pet-idade">Idade (anos)</label>
+        <input type="number" id="pet-idade" min="0">
+      </div>
+      <div class="campo">
+        <label for="pet-sexo">Sexo</label>
+        <select id="pet-sexo">
+          <option value="Macho">Macho</option>
+          <option value="Fêmea">Fêmea</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label for="pet-peso">Peso (kg)</label>
+        <input type="number" id="pet-peso" step="0.1" min="0">
+      </div>
+      <div class="campo">
+        <label for="pet-foto">URL da foto</label>
+        <input type="text" id="pet-foto" placeholder="https://...">
+      </div>
+      <div class="campo">
+        <label for="pet-obs">Observações</label>
+        <textarea id="pet-obs" placeholder="Alergias, cuidados especiais, etc."></textarea>
+      </div>
+      <div class="modal-acoes">
+        <button type="button" class="btn btn-secondary" id="btn-cancelar-modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container footer-bottom">&copy; 2026 Pawfect Paradise. Todos os direitos reservados. Projeto acadêmico. Grupo: Jessica Hellen, Maria Leticia e Sarah Rebeca.</div>
+</footer>
+
+<script src="js/app.js"></script>
+<script>
+async function carregarPets() {
+  const usuario = await exigirLoginOuRedirecionar();
+  if (!usuario) return;
+
+  const pets = await get('/pets');
+  const container = document.querySelector('#lista-pets');
+  if (pets.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="emoji">🐶</div><p>Você ainda não cadastrou nenhum pet.</p></div>`;
+    return;
+  }
+  container.innerHTML = pets.map((p) => `
+    <div class="card-lista">
+      <img src="${p.foto || 'https://placedog.net/100/100?id=' + p.id}" alt="${p.nome}" style="width:60px;height:60px;object-fit:cover;border-radius:50%;">
+      <div style="flex:1; min-width:180px;">
+        <strong>${p.nome}</strong> — ${p.especie}${p.raca ? ', ' + p.raca : ''}
+        <br><small>${p.idade ? p.idade + ' anos · ' : ''}${p.sexo || ''}${p.peso ? ' · ' + p.peso + ' kg' : ''}</small>
+        ${p.observacoes ? `<br><small style="color:var(--texto-medio);">${p.observacoes}</small>` : ''}
+      </div>
+      <div class="acoes-tabela">
+        <button class="btn-secondary" onclick='abrirModalEdicao(${JSON.stringify(p)})'>Editar</button>
+        <button class="btn-danger" onclick="excluirPet(${p.id})">Excluir</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function abrirModal() {
+  document.querySelector('#modal-pet').classList.add('aberto');
+}
+function fecharModal() {
+  document.querySelector('#modal-pet').classList.remove('aberto');
+  document.querySelector('#form-pet').reset();
+  document.querySelector('#pet-id').value = '';
+  document.querySelector('#modal-titulo').textContent = 'Cadastrar Pet';
+}
+
+function abrirModalEdicao(pet) {
+  document.querySelector('#modal-titulo').textContent = 'Editar Pet';
+  document.querySelector('#pet-id').value = pet.id;
+  document.querySelector('#pet-nome').value = pet.nome;
+  document.querySelector('#pet-especie').value = pet.especie;
+  document.querySelector('#pet-raca').value = pet.raca || '';
+  document.querySelector('#pet-idade').value = pet.idade || '';
+  document.querySelector('#pet-sexo').value = pet.sexo || 'Macho';
+  document.querySelector('#pet-peso').value = pet.peso || '';
+  document.querySelector('#pet-foto').value = pet.foto || '';
+  document.querySelector('#pet-obs').value = pet.observacoes || '';
+  abrirModal();
+}
+
+document.querySelector('#btn-novo-pet').addEventListener('click', abrirModal);
+document.querySelector('#btn-cancelar-modal').addEventListener('click', fecharModal);
+
+document.querySelector('#form-pet').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const msg = document.querySelector('#mensagem');
+  const id = document.querySelector('#pet-id').value;
+  const corpo = {
+    nome: document.querySelector('#pet-nome').value,
+    especie: document.querySelector('#pet-especie').value,
+    raca: document.querySelector('#pet-raca').value,
+    idade: document.querySelector('#pet-idade').value || null,
+    sexo: document.querySelector('#pet-sexo').value,
+    peso: document.querySelector('#pet-peso').value || null,
+    foto: document.querySelector('#pet-foto').value,
+    observacoes: document.querySelector('#pet-obs').value,
+  };
+
+  try {
+    if (id) {
+      await put('/pets/' + id, corpo);
+      mostrarMensagem(msg, 'Pet atualizado com sucesso!', 'sucesso');
+    } else {
+      await post('/pets', corpo);
+      mostrarMensagem(msg, 'Pet cadastrado com sucesso!', 'sucesso');
+    }
+    fecharModal();
+    carregarPets();
+  } catch (err) {
+    mostrarMensagem(msg, err.message, 'erro');
+  }
+});
+
+async function excluirPet(id) {
+  if (!confirm('Tem certeza que deseja excluir este pet?')) return;
+  const msg = document.querySelector('#mensagem');
+  try {
+    await del('/pets/' + id);
+    mostrarMensagem(msg, 'Pet excluído com sucesso!', 'sucesso');
+    carregarPets();
+  } catch (err) {
+    mostrarMensagem(msg, err.message, 'erro');
+  }
+}
+
+carregarPets();
+</script>
+</body>
+</html>

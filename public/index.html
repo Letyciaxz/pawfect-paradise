@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pawfect Paradise | Pet Shop</title>
+<meta name="description" content="Produtos, serviços e cuidados para cães e gatos na Pawfect Paradise.">
+<meta name="keywords" content="pet shop, produtos para pets, banho e tosa, ração, brinquedos para cães e gatos">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-emoji">🐾</span>
+      <span class="logo-text"><strong>Pawfect <span class="brand-pink">Paradise</span></strong><small>cute stuff for cute pets</small></span>
+    </a>
+    <nav class="main-nav">
+      <a href="index.html" class="active">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="categories.html">Categories</a>
+      <a href="services.html">Services</a>
+      <a href="about.html">About Us</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+      <a href="admin.html" id="link-admin" style="display:none;">Admin</a>
+    </nav>
+    <div class="header-icons">
+      <a href="shop.html" class="icon-btn" title="Pesquisar" aria-label="Pesquisar produtos">🔍</a>
+      <a href="login.html" class="icon-btn" id="link-usuario" title="Entrar" aria-label="Entrar ou ver perfil">👤</a>
+      <a href="carrinho.html" class="icon-btn" aria-label="Ver carrinho">🛒<span class="cart-count">0</span></a>
+      <button class="menu-toggle" aria-label="Abrir menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-text">
+        <h1>Happy pets, <span class="highlight">happy hearts</span></h1>
+        <p>Produtos adoráveis para seus melhores amigos.</p>
+        <div class="hero-actions">
+          <a href="shop.html" class="btn btn-primary">🐾 Comprar agora</a>
+          <a href="about.html" class="btn btn-secondary">▶ Assistir vídeo</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="https://placedog.net/700/500?id=1" alt="Cachorro e gato fofos juntos em uma cama rosa" width="700" height="500">
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="beneficios">
+      <div class="beneficio-item">
+        <div class="beneficio-icon bg-rosa">🚚</div>
+        <div><strong>Frete grátis</strong><small>Em pedidos acima de R$150</small></div>
+      </div>
+      <div class="beneficio-item">
+        <div class="beneficio-icon bg-amarelo">🏅</div>
+        <div><strong>Alta qualidade</strong><small>Seguro e amigo dos pets</small></div>
+      </div>
+      <div class="beneficio-item">
+        <div class="beneficio-icon bg-verde">❤️</div>
+        <div><strong>Amado pelos pets</strong><small>Mais de 1000 caudas felizes</small></div>
+      </div>
+      <div class="beneficio-item">
+        <div class="beneficio-icon bg-lilas">🎧</div>
+        <div><strong>Suporte 24/7</strong><small>Estamos sempre aqui</small></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORIAS -->
+  <section class="secao secao-divisoria">
+    <div class="container">
+      <div class="secao-titulo">
+        <h2>🐾 Compre por Categoria</h2>
+        <p>Encontre exatamente o que seu pet precisa</p>
+      </div>
+      <div class="categorias-grid" id="categorias-home"></div>
+      <div style="text-align:center; margin-top: 30px;">
+        <a href="categories.html" class="btn btn-outline">Ver Todas as Categorias</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROMOÇÃO -->
+  <section class="container">
+    <div class="promo-banner">
+      <div class="promo-texto">
+        <span class="tag">Oferta de Primavera</span>
+        <h3>Até <strong style="color:var(--rosa-principal)">30% OFF</strong></h3>
+        <p>Em itens selecionados para o seu pet!</p>
+        <a href="shop.html" class="btn btn-primary">🐾 Aproveitar Promoção</a>
+      </div>
+      <div class="promo-imagem">
+        <img src="https://placedog.net/400/400?id=2" alt="Cachorro usando bandana rosa, promoção de até 30% off">
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUTOS EM DESTAQUE -->
+  <section class="secao">
+    <div class="container">
+      <div class="secao-titulo">
+        <h2>✨ Produtos em Destaque</h2>
+        <p>Os queridinhos dos nossos clientes e seus pets</p>
+      </div>
+      <div class="produtos-grid" id="produtos-destaque"></div>
+    </div>
+  </section>
+
+  <!-- AVALIAÇÕES -->
+  <section class="secao" style="background:#fff;">
+    <div class="container">
+      <div class="secao-titulo">
+        <h2>💛 Clientes Felizes</h2>
+        <p>O que dizem sobre a Pawfect Paradise</p>
+      </div>
+      <div class="avaliacoes-grid" id="avaliacoes-home"></div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="container secao" style="padding-top:0;">
+    <div class="newsletter">
+      <div>
+        <h3>Junte-se à nossa família Paw-some! 🐾</h3>
+        <p>Ganhe 10% de desconto na primeira compra e ofertas exclusivas.</p>
+      </div>
+      <form class="newsletter-form" id="form-newsletter">
+        <input type="email" placeholder="Digite seu e-mail" required>
+        <button type="submit" class="btn btn-primary">Inscrever-se</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <a href="index.html" class="logo">
+        <span class="logo-emoji">🐾</span>
+        <span class="logo-text"><strong>Pawfect <span class="brand-pink">Paradise</span></strong><small>cute stuff for cute pets</small></span>
+      </a>
+      <p>Amamos ver seus pets felizes. #cutestuffforcutepets</p>
+    </div>
+    <div>
+      <h4>Links Rápidos</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Atendimento</h4>
+      <ul>
+        <li><a href="#">Política de Envio</a></li>
+        <li><a href="#">Trocas e Devoluções</a></li>
+        <li><a href="#">Termos de Serviço</a></li>
+        <li><a href="#">Privacidade</a></li>
+        <li><a href="#">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contato</h4>
+      <ul>
+        <li>hello@pawfect.com</li>
+        <li>+55 11 91234-5678</li>
+        <li>Rua dos Pets, 123 - Pet City</li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">&copy; 2026 Pawfect Paradise. Todos os direitos reservados. Projeto acadêmico. Grupo: Jessica Hellen, Maria Leticia e Sarah Rebeca.</div>
+</footer>
+
+<script src="js/app.js"></script>
+<script>
+async function carregarHome() {
+  try {
+    const categorias = await get('/categorias');
+    const grid = document.querySelector('#categorias-home');
+    grid.innerHTML = categorias.slice(0, 5).map((c) => `
+      <a class="categoria-card" href="shop.html?categoria_id=${c.id}">
+        <img class="categoria-img" src="${c.imagem}" alt="Categoria ${c.nome}">
+        <span>${c.nome}</span>
+      </a>
+    `).join('');
+  } catch (e) { console.error(e); }
+
+  try {
+    const { produtos } = await get('/produtos?ordenar=&porPagina=8');
+    const grid = document.querySelector('#produtos-destaque');
+    grid.innerHTML = produtos.map((p) => `
+      <div class="produto-card">
+        <a href="product.html?id=${p.id}"><img src="${p.imagem}" alt="${p.nome}"></a>
+        <div class="produto-card-body">
+          <span class="produto-categoria">${p.categoria_nome || ''}</span>
+          <a href="product.html?id=${p.id}"><h3 class="produto-nome">${p.nome}</h3></a>
+          <span class="produto-preco">${formatarPreco(p.preco)}</span>
+        </div>
+        <div class="produto-card-footer">
+          <button class="btn btn-primary btn-small" style="width:100%;" onclick="adicionarAoCarrinho(${p.id}); this.textContent='Adicionado! ✓';">Adicionar ao Carrinho</button>
+        </div>
+      </div>
+    `).join('');
+  } catch (e) { console.error(e); }
+
+  try {
+    const avaliacoes = await get('/avaliacoes');
+    const grid = document.querySelector('#avaliacoes-home');
+    grid.innerHTML = avaliacoes.slice(0, 3).map((a) => `
+      <div class="avaliacao-card">
+        ${renderEstrelas(a.nota)}
+        <p>"${a.comentario}"</p>
+        <div class="avaliacao-autor">
+          <img src="https://i.pravatar.cc/80?u=${a.usuario_id}" alt="${a.usuario_nome}">
+          <strong>${a.usuario_nome}</strong>
+        </div>
+      </div>
+    `).join('');
+  } catch (e) { console.error(e); }
+}
+
+document.querySelector('#form-newsletter').addEventListener('submit', (e) => {
+  e.preventDefault();
+  alert('Obrigado por se inscrever! 🐾 (funcionalidade de e-mail marketing não faz parte do escopo deste projeto acadêmico)');
+  e.target.reset();
+});
+
+carregarHome();
+</script>
+</body>
+</html>

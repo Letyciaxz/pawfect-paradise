@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meus Pedidos | Pawfect Paradise</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-emoji">🐾</span>
+      <span class="logo-text"><strong>Pawfect <span class="brand-pink">Paradise</span></strong><small>cute stuff for cute pets</small></span>
+    </a>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="categories.html">Categories</a>
+      <a href="services.html">Services</a>
+      <a href="about.html">About Us</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+      <a href="admin.html" id="link-admin" style="display:none;">Admin</a>
+    </nav>
+    <div class="header-icons">
+      <a href="shop.html" class="icon-btn" title="Pesquisar">🔍</a>
+      <a href="login.html" class="icon-btn" id="link-usuario" title="Entrar">👤</a>
+      <a href="carrinho.html" class="icon-btn">🛒<span class="cart-count">0</span></a>
+      <button class="menu-toggle" aria-label="Abrir menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<div class="page-header">
+  <div class="container">
+    <h1>Meus Pedidos</h1>
+    <p class="breadcrumb">Home / Meus Pedidos</p>
+  </div>
+</div>
+
+<main class="container secao" style="padding-top:0;">
+  <div class="tabs">
+    <a href="perfil.html" class="tab-btn">Meus Dados</a>
+    <a href="pets.html" class="tab-btn">Meus Pets</a>
+    <a href="meus-pedidos.html" class="tab-btn active">Meus Pedidos</a>
+    <a href="meus-agendamentos.html" class="tab-btn">Meus Agendamentos</a>
+  </div>
+
+  <div id="lista-pedidos"></div>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-bottom">&copy; 2026 Pawfect Paradise. Todos os direitos reservados. Projeto acadêmico. Grupo: Jessica Hellen, Maria Leticia e Sarah Rebeca.</div>
+</footer>
+
+<script src="js/app.js"></script>
+<script>
+function classeBadge(status) {
+  return 'badge badge-' + status.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+async function carregar() {
+  let pedidos = JSON.parse(localStorage.getItem('pawfect_pedidos') || '[]');
+  try {
+    const pedidosDoServidor = await get('/pedidos');
+    pedidos = [...pedidos, ...pedidosDoServidor];
+  } catch {
+    // No Go Live e no GitHub Pages, os pedidos ficam salvos no navegador.
+  }
+  const container = document.querySelector('#lista-pedidos');
+  if (pedidos.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="emoji">📦</div><p>Você ainda não fez nenhum pedido.</p><a href="shop.html" class="btn btn-primary" style="margin-top:12px;">Ir às compras</a></div>`;
+    return;
+  }
+
+  container.innerHTML = pedidos.map((p) => `
+    <div class="card-lista" style="flex-direction:column; align-items:stretch;">
+      <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+        <strong>Pedido #${p.id}</strong>
+        <span class="${classeBadge(p.status)}">${p.status}</span>
+      </div>
+      <small style="color:var(--texto-medio);">${new Date(p.data).toLocaleString('pt-BR')}</small>
+      <div style="margin:10px 0;">
+        ${p.itens.map((item) => `
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+            <img src="${item.produto_imagem}" alt="${item.produto_nome}" style="width:40px;height:40px;object-fit:cover;border-radius:8px;">
+            <span>${item.quantidade}x ${item.produto_nome}</span>
+            <span style="margin-left:auto;">${formatarPreco(item.preco * item.quantidade)}</span>
+          </div>
+        `).join('')}
+      </div>
+      <div style="text-align:right; font-weight:700;">Total: ${formatarPreco(p.valor_total)}</div>
+    </div>
+  `).join('');
+}
+carregar();
+</script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Criar Conta | Pawfect Paradise</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-emoji">🐾</span>
+      <span class="logo-text"><strong>Pawfect <span class="brand-pink">Paradise</span></strong><small>cute stuff for cute pets</small></span>
+    </a>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="categories.html">Categories</a>
+      <a href="services.html">Services</a>
+      <a href="about.html">About Us</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="header-icons">
+      <a href="shop.html" class="icon-btn" title="Pesquisar">🔍</a>
+      <a href="login.html" class="icon-btn" id="link-usuario" title="Entrar">👤</a>
+      <a href="carrinho.html" class="icon-btn">🛒<span class="cart-count">0</span></a>
+      <button class="menu-toggle" aria-label="Abrir menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="form-card">
+    <h2>🐾 Crie sua conta</h2>
+    <p class="subtitulo">Cadastre-se para agendar serviços e comprar</p>
+    <div class="mensagem" id="mensagem"></div>
+    <form id="form-cadastro">
+      <div class="campo">
+        <label for="nome">Nome completo <span class="obrigatorio">*</span></label>
+        <input type="text" id="nome" required>
+      </div>
+      <div class="campo">
+        <label for="email">E-mail <span class="obrigatorio">*</span></label>
+        <input type="email" id="email" required>
+      </div>
+      <div class="campo">
+        <label for="senha">Senha <span class="obrigatorio">*</span></label>
+        <input type="password" id="senha" required minlength="6">
+        <small style="color:var(--texto-medio);">Mínimo de 6 caracteres</small>
+      </div>
+      <div class="campo">
+        <label for="senha2">Confirmar senha <span class="obrigatorio">*</span></label>
+        <input type="password" id="senha2" required minlength="6">
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Cadastrar</button>
+    </form>
+    <p class="form-rodape">Já tem uma conta? <a href="login.html" style="color:var(--rosa-principal); font-weight:600;">Entrar</a></p>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-bottom">&copy; 2026 Pawfect Paradise. Todos os direitos reservados. Projeto acadêmico. Grupo: Jessica Hellen, Maria Leticia e Sarah Rebeca.</div>
+</footer>
+
+<script src="js/app.js"></script>
+<script>
+document.querySelector('#form-cadastro').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const msg = document.querySelector('#mensagem');
+  const senha = document.querySelector('#senha').value;
+  const senha2 = document.querySelector('#senha2').value;
+  if (senha !== senha2) return mostrarMensagem(msg, 'As senhas não coincidem.', 'erro');
+
+  try {
+    await post('/usuarios', {
+      nome: document.querySelector('#nome').value,
+      email: document.querySelector('#email').value,
+      senha,
+    });
+    mostrarMensagem(msg, 'Cadastro realizado com sucesso!', 'sucesso');
+    setTimeout(() => { window.location.href = 'index.html'; }, 800);
+  } catch (err) {
+    mostrarMensagem(msg, err.message, 'erro');
+  }
+});
+</script>
+</body>
+</html>

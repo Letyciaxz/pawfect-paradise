@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Serviços | Pawfect Paradise</title>
+<meta name="description" content="Banho, tosa, consulta veterinária e vacinação para o seu pet.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-emoji">🐾</span>
+      <span class="logo-text"><strong>Pawfect <span class="brand-pink">Paradise</span></strong><small>cute stuff for cute pets</small></span>
+    </a>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="categories.html">Categories</a>
+      <a href="services.html" class="active">Services</a>
+      <a href="about.html">About Us</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+      <a href="admin.html" id="link-admin" style="display:none;">Admin</a>
+    </nav>
+    <div class="header-icons">
+      <a href="shop.html" class="icon-btn" title="Pesquisar">🔍</a>
+      <a href="login.html" class="icon-btn" id="link-usuario" title="Entrar">👤</a>
+      <a href="carrinho.html" class="icon-btn">🛒<span class="cart-count">0</span></a>
+      <button class="menu-toggle" aria-label="Abrir menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<div class="page-header">
+  <div class="container">
+    <h1>Nossos Serviços</h1>
+    <p class="breadcrumb">Home / Services</p>
+  </div>
+</div>
+
+<main class="container secao" style="padding-top:0;">
+  <div class="produtos-grid" id="lista-servicos"></div>
+  <div style="text-align:center; margin-top:36px;">
+    <a href="agendamento.html" class="btn btn-primary">📅 Agendar um Serviço</a>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-bottom">&copy; 2026 Pawfect Paradise. Todos os direitos reservados. Projeto acadêmico. Grupo: Jessica Hellen, Maria Leticia e Sarah Rebeca.</div>
+</footer>
+
+<script src="js/app.js"></script>
+<script>
+async function carregar() {
+  const servicos = await get('/servicos');
+  document.querySelector('#lista-servicos').innerHTML = servicos.map((s) => `
+    <div class="produto-card">
+      <img src="${s.imagem}" alt="${s.nome}">
+      <div class="produto-card-body">
+        <h3 class="produto-nome">${s.nome}</h3>
+        <p style="font-size:0.85rem;">${s.descricao}</p>
+        <span class="produto-preco">${formatarPreco(s.preco)} <small style="font-weight:400;color:var(--texto-medio);">/ ${s.duracao} min</small></span>
+      </div>
+      <div class="produto-card-footer">
+        <a href="agendamento.html?servico_id=${s.id}" class="btn btn-primary btn-small" style="width:100%; text-align:center; justify-content:center;">Agendar</a>
+      </div>
+    </div>
+  `).join('');
+}
+carregar();
+</script>
+</body>
+</html>
