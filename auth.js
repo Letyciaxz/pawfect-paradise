@@ -1,3 +1,4 @@
+
 // middleware/auth.js
 // Funções simples de controle de acesso baseadas na sessão do usuário.
 // A sessão é criada em routes/usuarios.js no momento do login.

@@ -1,28 +1,47 @@
-// public/js/app.js
-// Funções compartilhadas por todas as páginas: chamadas à API, carrinho
-// (guardado no localStorage do navegador) e comportamento do cabeçalho.
+// app.js
+// Versão frontend puro para Vercel: tudo fica em localStorage e não depende
+// de servidor Node/Express nem de banco SQLite.
 
-const API_BASE = '/api';
+const API_BASE = '';
+
+const STORAGE_KEYS = {
+  usuarios: 'pawfect_usuarios',
+  usuarioAtual: 'pawfect_usuario',
+  produtos: 'pawfect_produtos',
+  categorias: 'pawfect_categorias',
+  servicos: 'pawfect_servicos',
+  pets: 'pawfect_pets',
+  agendamentos: 'pawfect_agendamentos',
+  pedidos: 'pawfect_pedidos',
+  avaliacoes: 'pawfect_avaliacoes',
+  carrinho: 'pawfect_carrinho',
+};
+
+const usuariosOffline = [
+  { id: 1, nome: 'Administrador', email: 'admin@pawfect.com', senha: '123456', tipo: 'admin' },
+  { id: 2, nome: 'Funcionário', email: 'funcionario@pawfect.com', senha: '123456', tipo: 'funcionario' },
+  { id: 3, nome: 'Cliente Demo', email: 'cliente@pawfect.com', senha: '123456', tipo: 'cliente' },
+];
 
 const produtosOffline = [
-  { id: 1, nome: 'Cama Redonda Rosa', descricao: 'Cama macia e redonda, ideal para cães e gatos pequenos', preco: 129.9, imagem: 'https://placedog.net/500/400?id=20', categoria_id: 1, categoria_nome: 'Camas e Tapetes' },
-  { id: 2, nome: 'Tapete Higiênico Premium', descricao: 'Pacote com 30 unidades, alta absorção', preco: 59.9, imagem: 'https://placedog.net/500/400?id=21', categoria_id: 1, categoria_nome: 'Camas e Tapetes' },
-  { id: 3, nome: 'Dinossauro de Pelúcia', descricao: 'Brinquedo resistente para mastigar', preco: 39.9, imagem: 'https://placedog.net/500/400?id=22', categoria_id: 2, categoria_nome: 'Brinquedos' },
-  { id: 4, nome: 'Bolinha Interativa', descricao: 'Bolinha com guizo para estimular o pet', preco: 24.9, imagem: 'https://placedog.net/500/400?id=23', categoria_id: 2, categoria_nome: 'Brinquedos' },
-  { id: 5, nome: 'Moletom Pet Rosa', descricao: 'Moletom quentinho para dias frios', preco: 79.9, imagem: 'https://placedog.net/500/400?id=24', categoria_id: 3, categoria_nome: 'Roupinhas' },
-  { id: 6, nome: 'Bandana Estampada', descricao: 'Bandana ajustável, tamanho único', preco: 19.9, imagem: 'https://placedog.net/500/400?id=25', categoria_id: 3, categoria_nome: 'Roupinhas' },
-  { id: 7, nome: 'Ração Premium 10kg', descricao: 'Ração completa para cães adultos', preco: 189.9, imagem: 'https://placedog.net/500/400?id=26', categoria_id: 4, categoria_nome: 'Alimentação' },
-  { id: 8, nome: 'Pote Duplo Inox', descricao: 'Pote duplo para água e ração', preco: 49.9, imagem: 'https://placedog.net/500/400?id=27', categoria_id: 4, categoria_nome: 'Alimentação' },
-  { id: 9, nome: 'Shampoo Neutro 500ml', descricao: 'Shampoo hipoalergênico para pele sensível', preco: 34.9, imagem: 'https://placedog.net/500/400?id=28', categoria_id: 5, categoria_nome: 'Higiene' },
-  { id: 10, nome: 'Escova Removedora de Pelos', descricao: 'Remove pelos soltos sem machucar', preco: 44.9, imagem: 'https://placedog.net/500/400?id=29', categoria_id: 5, categoria_nome: 'Higiene' },
+  { id: 1, nome: 'Cama Redonda Rosa', descricao: 'Cama macia e redonda, ideal para cães e gatos pequenos', preco: 129.9, estoque: 12, imagem: 'https://placedog.net/500/400?id=20', categoria_id: 1, status: 'ativo' },
+  { id: 2, nome: 'Tapete Higiênico Premium', descricao: 'Pacote com 30 unidades, alta absorção', preco: 59.9, estoque: 20, imagem: 'https://placedog.net/500/400?id=21', categoria_id: 1, status: 'ativo' },
+  { id: 3, nome: 'Dinossauro de Pelúcia', descricao: 'Brinquedo resistente para mastigar', preco: 39.9, estoque: 18, imagem: 'https://placedog.net/500/400?id=22', categoria_id: 2, status: 'ativo' },
+  { id: 4, nome: 'Bolinha Interativa', descricao: 'Bolinha com guizo para estimular o pet', preco: 24.9, estoque: 30, imagem: 'https://placedog.net/500/400?id=23', categoria_id: 2, status: 'ativo' },
+  { id: 5, nome: 'Moletom Pet Rosa', descricao: 'Moletom quentinho para dias frios', preco: 79.9, estoque: 15, imagem: 'https://placedog.net/500/400?id=24', categoria_id: 3, status: 'ativo' },
+  { id: 6, nome: 'Bandana Estampada', descricao: 'Bandana ajustável, tamanho único', preco: 19.9, estoque: 25, imagem: 'https://placedog.net/500/400?id=25', categoria_id: 3, status: 'ativo' },
+  { id: 7, nome: 'Ração Premium 10kg', descricao: 'Ração completa para cães adultos', preco: 189.9, estoque: 10, imagem: 'https://placedog.net/500/400?id=26', categoria_id: 4, status: 'ativo' },
+  { id: 8, nome: 'Pote Duplo Inox', descricao: 'Pote duplo para água e ração', preco: 49.9, estoque: 14, imagem: 'https://placedog.net/500/400?id=27', categoria_id: 4, status: 'ativo' },
+  { id: 9, nome: 'Shampoo Neutro 500ml', descricao: 'Shampoo hipoalergênico para pele sensível', preco: 34.9, estoque: 16, imagem: 'https://placedog.net/500/400?id=28', categoria_id: 5, status: 'ativo' },
+  { id: 10, nome: 'Escova Removedora de Pelos', descricao: 'Remove pelos soltos sem machucar', preco: 44.9, estoque: 22, imagem: 'https://placedog.net/500/400?id=29', categoria_id: 5, status: 'ativo' },
 ];
 
 const categoriasOffline = [
-  { id: 1, nome: 'Camas e Tapetes', imagem: 'https://placedog.net/400/300?id=10' },
-  { id: 2, nome: 'Brinquedos', imagem: 'https://placedog.net/400/300?id=11' },
-  { id: 3, nome: 'Roupinhas', imagem: 'https://placedog.net/400/300?id=12' },
-  { id: 4, nome: 'Alimentação', imagem: 'https://placedog.net/400/300?id=13' },
-  { id: 5, nome: 'Higiene', imagem: 'https://placedog.net/400/300?id=14' },
+  { id: 1, nome: 'Camas e Tapetes', descricao: 'Itens de conforto e descanso', imagem: 'https://placedog.net/400/300?id=10' },
+  { id: 2, nome: 'Brinquedos', descricao: 'Diversão e estímulo para o pet', imagem: 'https://placedog.net/400/300?id=11' },
+  { id: 3, nome: 'Roupinhas', descricao: 'Looks fofos e funcionais', imagem: 'https://placedog.net/400/300?id=12' },
+  { id: 4, nome: 'Alimentação', descricao: 'Ração, potes e itens para o dia a dia', imagem: 'https://placedog.net/400/300?id=13' },
+  { id: 5, nome: 'Higiene', descricao: 'Produtos de banho e bem-estar', imagem: 'https://placedog.net/400/300?id=14' },
 ];
 
 const servicosOffline = [
@@ -32,38 +51,527 @@ const servicosOffline = [
   { id: 4, nome: 'Vacinação', descricao: 'Aplicação de vacinas essenciais', preco: 90, duracao: 20, imagem: 'https://placedog.net/400/300?id=33' },
 ];
 
-function dadosOffline(caminho) {
-  if (caminho.startsWith('/produtos/')) {
-    const produto = produtosOffline.find((item) => item.id === Number(caminho.split('/')[2]));
-    return produto ? { ...produto, avaliacoes: [] } : Promise.reject(new Error('Produto não encontrado.'));
-  }
-  if (caminho.startsWith('/produtos')) return { produtos: produtosOffline, pagina: 1, porPagina: produtosOffline.length };
-  if (caminho.startsWith('/categorias')) return categoriasOffline;
-  if (caminho.startsWith('/servicos')) return servicosOffline;
-  if (caminho.startsWith('/avaliacoes')) return [];
-  throw new Error('Esta função precisa do servidor para funcionar.');
-}
+const petsOffline = [
+  { id: 1, usuario_id: 3, nome: 'Luna', tipo: 'Cachorro', raca: 'Shih Tzu', idade: '2 anos', observacoes: 'Muito calma e carinhosa' },
+  { id: 2, usuario_id: 3, nome: 'Mimi', tipo: 'Gato', raca: 'Siamesa', idade: '1 ano', observacoes: 'Adora brincar' },
+];
 
-/* ---------- CHAMADAS À API ---------- */
-async function api(caminho, opcoes = {}) {
+function parseStorage(key, fallback) {
   try {
-    const resposta = await fetch(API_BASE + caminho, {
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include', // necessário para enviar o cookie de sessão
-      ...opcoes,
-    });
-    const dados = await resposta.json().catch(() => ({}));
-    if (!resposta.ok) {
-      throw new Error(dados.erro || 'Ocorreu um erro inesperado.');
-    }
-    return dados;
-  } catch (erro) {
-    if (opcoes.method && opcoes.method !== 'GET') throw erro;
-    return dadosOffline(caminho);
+    const raw = localStorage.getItem(key);
+    if (!raw) return fallback;
+    return JSON.parse(raw);
+  } catch {
+    return fallback;
   }
 }
 
-const get = (caminho) => api(caminho);
+function setStorage(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
+function seedLocalStorage() {
+  if (!localStorage.getItem(STORAGE_KEYS.usuarios)) {
+    setStorage(STORAGE_KEYS.usuarios, usuariosOffline);
+  }
+  if (!localStorage.getItem(STORAGE_KEYS.produtos)) {
+    setStorage(STORAGE_KEYS.produtos, produtosOffline);
+  }
+  if (!localStorage.getItem(STORAGE_KEYS.categorias)) {
+    setStorage(STORAGE_KEYS.categorias, categoriasOffline);
+  }
+  if (!localStorage.getItem(STORAGE_KEYS.servicos)) {
+    setStorage(STORAGE_KEYS.servicos, servicosOffline);
+  }
+  if (!localStorage.getItem(STORAGE_KEYS.pets)) {
+    setStorage(STORAGE_KEYS.pets, petsOffline);
+  }
+  if (!localStorage.getItem(STORAGE_KEYS.agendamentos)) {
+    setStorage(STORAGE_KEYS.agendamentos, []);
+  }
+  if (!localStorage.getItem(STORAGE_KEYS.pedidos)) {
+    setStorage(STORAGE_KEYS.pedidos, []);
+  }
+  if (!localStorage.getItem(STORAGE_KEYS.avaliacoes)) {
+    setStorage(STORAGE_KEYS.avaliacoes, []);
+  }
+  if (!localStorage.getItem(STORAGE_KEYS.usuarioAtual)) {
+    localStorage.removeItem(STORAGE_KEYS.usuarioAtual);
+  }
+}
+
+function normalizeUsuario(usuario) {
+  if (!usuario) return null;
+  return { id: usuario.id, nome: usuario.nome, email: usuario.email, tipo: usuario.tipo || 'cliente' };
+}
+
+function obterUsuarioAtual() {
+  const usuario = parseStorage(STORAGE_KEYS.usuarioAtual, null);
+  return normalizeUsuario(usuario);
+}
+
+function salvarUsuarioAtual(usuario) {
+  if (!usuario) {
+    localStorage.removeItem(STORAGE_KEYS.usuarioAtual);
+    return;
+  }
+  localStorage.setItem(STORAGE_KEYS.usuarioAtual, JSON.stringify(usuario));
+}
+
+function proximoId(lista) {
+  return lista.reduce((maior, item) => Math.max(maior, Number(item.id || 0)), 0) + 1;
+}
+
+function listarCategorias() {
+  return parseStorage(STORAGE_KEYS.categorias, categoriasOffline);
+}
+
+function listarProdutos() {
+  return parseStorage(STORAGE_KEYS.produtos, produtosOffline);
+}
+
+function listarServicos() {
+  return parseStorage(STORAGE_KEYS.servicos, servicosOffline);
+}
+
+function listarAvaliacoes() {
+  return parseStorage(STORAGE_KEYS.avaliacoes, []);
+}
+
+function montarProduto(item) {
+  const categoria = listarCategorias().find((c) => Number(c.id) === Number(item.categoria_id));
+  return { ...item, categoria_nome: categoria ? categoria.nome : '' };
+}
+
+function montarAvaliacao(item) {
+  const usuario = parseStorage(STORAGE_KEYS.usuarios, usuariosOffline).find((u) => Number(u.id) === Number(item.usuario_id));
+  return { ...item, usuario_nome: usuario ? usuario.nome : 'Usuário' };
+}
+
+function exigirLogin() {
+  const usuario = obterUsuarioAtual();
+  if (!usuario) {
+    throw new Error('Você precisa estar logado para acessar este recurso.');
+  }
+  return usuario;
+}
+
+function exigirTipo(...tiposPermitidos) {
+  const usuario = exigirLogin();
+  if (!tiposPermitidos.includes(usuario.tipo)) {
+    throw new Error('Você não tem permissão para acessar este recurso.');
+  }
+  return usuario;
+}
+
+function getRouteAndQuery(caminho) {
+  const url = new URL(caminho, 'https://local.test');
+  return {
+    route: url.pathname,
+    query: url.searchParams,
+  };
+}
+
+async function api(caminho, opcoes = {}) {
+  seedLocalStorage();
+
+  const method = (opcoes.method || 'GET').toUpperCase();
+  const body = opcoes.body ? JSON.parse(opcoes.body) : undefined;
+  const { route, query } = getRouteAndQuery(caminho);
+  const partes = route.split('/').filter(Boolean);
+
+  if (route === '/produtos' || route.startsWith('/produtos?')) {
+    const produtos = listarProdutos();
+    if (method === 'GET') {
+      let lista = produtos.map(montarProduto);
+      const busca = (query.get('busca') || '').toLowerCase();
+      const categoriaId = query.get('categoria_id');
+      const ordenar = query.get('ordenar') || '';
+      if (busca) lista = lista.filter((item) => item.nome.toLowerCase().includes(busca) || (item.descricao || '').toLowerCase().includes(busca));
+      if (categoriaId) lista = lista.filter((item) => String(item.categoria_id) === String(categoriaId));
+      if (ordenar === 'preco_asc') lista.sort((a, b) => Number(a.preco) - Number(b.preco));
+      if (ordenar === 'preco_desc') lista.sort((a, b) => Number(b.preco) - Number(a.preco));
+      if (ordenar === 'nome_asc') lista.sort((a, b) => a.nome.localeCompare(b.nome));
+      if (ordenar === 'nome_desc') lista.sort((a, b) => b.nome.localeCompare(a.nome));
+      const pagina = Number(query.get('pagina') || 1);
+      const porPagina = Number(query.get('porPagina') || lista.length || 12);
+      const inicio = (pagina - 1) * porPagina;
+      const itens = lista.slice(inicio, inicio + porPagina);
+      return { produtos: itens, pagina, porPagina, total: lista.length };
+    }
+    if (method === 'POST') {
+      exigirTipo('admin');
+      const novoProduto = {
+        id: proximoId(produtos),
+        nome: body.nome,
+        descricao: body.descricao || '',
+        preco: Number(body.preco || 0),
+        estoque: Number(body.estoque || 0),
+        imagem: body.imagem || 'https://placedog.net/500/400?id=99',
+        categoria_id: Number(body.categoria_id || 1),
+        status: body.status || 'ativo',
+      };
+      produtos.push(novoProduto);
+      setStorage(STORAGE_KEYS.produtos, produtos);
+      return montarProduto(novoProduto);
+    }
+    throw new Error('Operação não suportada para produtos.');
+  }
+
+  if (route.startsWith('/produtos/')) {
+    const produtos = listarProdutos();
+    const id = Number(partes[1]);
+    const produto = produtos.find((item) => Number(item.id) === id);
+    if (!produto) throw new Error('Produto não encontrado.');
+    if (method === 'GET') {
+      const avaliacoes = listarAvaliacoes().filter((a) => Number(a.produto_id) === id).map(montarAvaliacao);
+      return { ...montarProduto(produto), avaliacoes };
+    }
+    if (method === 'PUT') {
+      exigirTipo('admin');
+      Object.assign(produto, {
+        nome: body.nome || produto.nome,
+        descricao: body.descricao ?? produto.descricao,
+        preco: Number(body.preco ?? produto.preco),
+        estoque: Number(body.estoque ?? produto.estoque),
+        imagem: body.imagem || produto.imagem,
+        categoria_id: Number(body.categoria_id ?? produto.categoria_id),
+        status: body.status || produto.status,
+      });
+      setStorage(STORAGE_KEYS.produtos, produtos);
+      return montarProduto(produto);
+    }
+    if (method === 'DELETE') {
+      exigirTipo('admin');
+      const filtrados = produtos.filter((item) => Number(item.id) !== id);
+      setStorage(STORAGE_KEYS.produtos, filtrados);
+      return { ok: true };
+    }
+  }
+
+  if (route === '/categorias' || route.startsWith('/categorias?')) {
+    const categorias = listarCategorias();
+    if (method === 'GET') return categorias;
+    if (method === 'POST') {
+      exigirTipo('admin');
+      const nova = { id: proximoId(categorias), nome: body.nome, descricao: body.descricao || '', imagem: body.imagem || 'https://placedog.net/400/300?id=99' };
+      categorias.push(nova);
+      setStorage(STORAGE_KEYS.categorias, categorias);
+      return nova;
+    }
+    throw new Error('Operação não suportada para categorias.');
+  }
+
+  if (route.startsWith('/categorias/')) {
+    const categorias = listarCategorias();
+    const id = Number(partes[1]);
+    const categoria = categorias.find((item) => Number(item.id) === id);
+    if (!categoria) throw new Error('Categoria não encontrada.');
+    if (method === 'PUT') {
+      exigirTipo('admin');
+      Object.assign(categoria, {
+        nome: body.nome || categoria.nome,
+        descricao: body.descricao ?? categoria.descricao,
+        imagem: body.imagem || categoria.imagem,
+      });
+      setStorage(STORAGE_KEYS.categorias, categorias);
+      return categoria;
+    }
+    if (method === 'DELETE') {
+      exigirTipo('admin');
+      const filtrados = categorias.filter((item) => Number(item.id) !== id);
+      setStorage(STORAGE_KEYS.categorias, filtrados);
+      return { ok: true };
+    }
+  }
+
+  if (route === '/servicos' || route.startsWith('/servicos?')) {
+    const servicos = listarServicos();
+    if (method === 'GET') return servicos;
+    if (method === 'POST') {
+      exigirTipo('admin');
+      const novo = { id: proximoId(servicos), nome: body.nome, descricao: body.descricao || '', preco: Number(body.preco || 0), duracao: Number(body.duracao || 0), imagem: body.imagem || 'https://placedog.net/400/300?id=99' };
+      servicos.push(novo);
+      setStorage(STORAGE_KEYS.servicos, servicos);
+      return novo;
+    }
+    throw new Error('Operação não suportada para serviços.');
+  }
+
+  if (route.startsWith('/servicos/')) {
+    const servicos = listarServicos();
+    const id = Number(partes[1]);
+    const servico = servicos.find((item) => Number(item.id) === id);
+    if (!servico) throw new Error('Serviço não encontrado.');
+    if (method === 'PUT') {
+      exigirTipo('admin');
+      Object.assign(servico, {
+        nome: body.nome || servico.nome,
+        descricao: body.descricao ?? servico.descricao,
+        preco: Number(body.preco ?? servico.preco),
+        duracao: Number(body.duracao ?? servico.duracao),
+        imagem: body.imagem || servico.imagem,
+      });
+      setStorage(STORAGE_KEYS.servicos, servicos);
+      return servico;
+    }
+    if (method === 'DELETE') {
+      exigirTipo('admin');
+      const filtrados = servicos.filter((item) => Number(item.id) !== id);
+      setStorage(STORAGE_KEYS.servicos, filtrados);
+      return { ok: true };
+    }
+  }
+
+  if (route === '/usuarios' || route.startsWith('/usuarios?')) {
+    const usuarios = parseStorage(STORAGE_KEYS.usuarios, usuariosOffline);
+    if (method === 'GET') {
+      return { usuarios: usuarios.map((usuario) => normalizeUsuario(usuario)) };
+    }
+    if (method === 'POST') {
+      const existente = usuarios.find((u) => u.email.toLowerCase() === String(body.email || '').toLowerCase());
+      if (existente) throw new Error('Já existe um usuário com este e-mail.');
+      const novo = {
+        id: proximoId(usuarios),
+        nome: body.nome,
+        email: body.email,
+        senha: body.senha,
+        tipo: 'cliente',
+      };
+      usuarios.push(novo);
+      setStorage(STORAGE_KEYS.usuarios, usuarios);
+      return { usuario: normalizeUsuario(novo), mensagem: 'Cadastro realizado com sucesso!' };
+    }
+    throw new Error('Operação não suportada para usuários.');
+  }
+
+  if (route === '/usuarios/me') {
+    if (method === 'GET') {
+      const usuario = obterUsuarioAtual();
+      return { usuario: usuario ? normalizeUsuario(usuario) : null };
+    }
+    throw new Error('Operação não suportada em /usuarios/me.');
+  }
+
+  if (route === '/usuarios/login') {
+    if (method === 'POST') {
+      const usuarios = parseStorage(STORAGE_KEYS.usuarios, usuariosOffline);
+      const usuario = usuarios.find((item) => item.email.toLowerCase() === String(body.email || '').toLowerCase() && item.senha === String(body.senha || ''));
+      if (!usuario) throw new Error('E-mail ou senha inválidos.');
+      const usuarioSemSenha = normalizeUsuario(usuario);
+      salvarUsuarioAtual(usuarioSemSenha);
+      return { usuario: usuarioSemSenha, mensagem: 'Login realizado com sucesso!' };
+    }
+    throw new Error('Operação não suportada para login.');
+  }
+
+  if (route === '/usuarios/logout') {
+    if (method === 'POST') {
+      salvarUsuarioAtual(null);
+      return { ok: true };
+    }
+    throw new Error('Operação não suportada para logout.');
+  }
+
+  if (route.startsWith('/usuarios/')) {
+    const usuarios = parseStorage(STORAGE_KEYS.usuarios, usuariosOffline);
+    const id = Number(partes[1]);
+    const usuario = usuarios.find((item) => Number(item.id) === id);
+    if (!usuario) throw new Error('Usuário não encontrado.');
+    if (method === 'PUT') {
+      const atual = obterUsuarioAtual();
+      if (!atual || (atual.id !== id && atual.tipo !== 'admin')) {
+        throw new Error('Você não pode editar este usuário.');
+      }
+      if (body.nome) usuario.nome = body.nome;
+      if (body.email) usuario.email = body.email;
+      if (body.senha) usuario.senha = body.senha;
+      if (body.tipo && atual.tipo === 'admin') usuario.tipo = body.tipo;
+      setStorage(STORAGE_KEYS.usuarios, usuarios);
+      return { usuario: normalizeUsuario(usuario) };
+    }
+    if (method === 'DELETE') {
+      exigirTipo('admin');
+      const filtrados = usuarios.filter((item) => Number(item.id) !== id);
+      setStorage(STORAGE_KEYS.usuarios, filtrados);
+      return { ok: true };
+    }
+  }
+
+  if (route === '/pets' || route.startsWith('/pets?')) {
+    const pets = parseStorage(STORAGE_KEYS.pets, petsOffline);
+    const usuarioAtual = obterUsuarioAtual();
+    if (method === 'GET') {
+      if (!usuarioAtual) return { pets: [] };
+      const lista = usuarioAtual.tipo === 'admin' || usuarioAtual.tipo === 'funcionario'
+        ? pets
+        : pets.filter((pet) => Number(pet.usuario_id) === Number(usuarioAtual.id));
+      return { pets: lista };
+    }
+    if (method === 'POST') {
+      const usuario = exigirLogin();
+      const novoPet = {
+        id: proximoId(pets),
+        usuario_id: usuario.id,
+        nome: body.nome,
+        tipo: body.tipo,
+        raca: body.raca,
+        idade: body.idade,
+        observacoes: body.observacoes || '',
+      };
+      pets.push(novoPet);
+      setStorage(STORAGE_KEYS.pets, pets);
+      return novoPet;
+    }
+    throw new Error('Operação não suportada para pets.');
+  }
+
+  if (route.startsWith('/pets/')) {
+    const pets = parseStorage(STORAGE_KEYS.pets, petsOffline);
+    const id = Number(partes[1]);
+    const pet = pets.find((item) => Number(item.id) === id);
+    if (!pet) throw new Error('Pet não encontrado.');
+    const usuario = exigirLogin();
+    if (usuario.id !== pet.usuario_id && usuario.tipo !== 'admin' && usuario.tipo !== 'funcionario') {
+      throw new Error('Você não pode alterar este pet.');
+    }
+    if (method === 'PUT') {
+      Object.assign(pet, {
+        nome: body.nome || pet.nome,
+        tipo: body.tipo || pet.tipo,
+        raca: body.raca || pet.raca,
+        idade: body.idade || pet.idade,
+        observacoes: body.observacoes ?? pet.observacoes,
+      });
+      setStorage(STORAGE_KEYS.pets, pets);
+      return pet;
+    }
+    if (method === 'DELETE') {
+      const filtrados = pets.filter((item) => Number(item.id) !== id);
+      setStorage(STORAGE_KEYS.pets, filtrados);
+      return { ok: true };
+    }
+  }
+
+  if (route === '/agendamentos' || route.startsWith('/agendamentos?')) {
+    const agendamentos = parseStorage(STORAGE_KEYS.agendamentos, []);
+    const usuario = exigirLogin();
+    if (method === 'GET') {
+      const lista = usuario.tipo === 'admin' || usuario.tipo === 'funcionario'
+        ? agendamentos
+        : agendamentos.filter((item) => Number(item.usuario_id) === Number(usuario.id));
+      return { agendamentos: lista };
+    }
+    if (method === 'POST') {
+      const novoAgendamento = {
+        id: proximoId(agendamentos),
+        usuario_id: usuario.id,
+        pet_id: Number(body.pet_id),
+        servico_id: Number(body.servico_id),
+        data: body.data,
+        horario: body.horario || '09:00',
+        status: 'Pendente',
+      };
+      agendamentos.push(novoAgendamento);
+      setStorage(STORAGE_KEYS.agendamentos, agendamentos);
+      return novoAgendamento;
+    }
+    throw new Error('Operação não suportada para agendamentos.');
+  }
+
+  if (route.startsWith('/agendamentos/')) {
+    const agendamentos = parseStorage(STORAGE_KEYS.agendamentos, []);
+    const id = Number(partes[1]);
+    const agendamento = agendamentos.find((item) => Number(item.id) === id);
+    if (!agendamento) throw new Error('Agendamento não encontrado.');
+    const usuario = exigirLogin();
+    if (usuario.id !== agendamento.usuario_id && usuario.tipo !== 'admin' && usuario.tipo !== 'funcionario') {
+      throw new Error('Você não pode alterar este agendamento.');
+    }
+    if (method === 'PUT') {
+      if (body.status) agendamento.status = body.status;
+      if (body.data) agendamento.data = body.data;
+      if (body.horario) agendamento.horario = body.horario;
+      setStorage(STORAGE_KEYS.agendamentos, agendamentos);
+      return agendamento;
+    }
+    if (method === 'DELETE') {
+      const filtrados = agendamentos.filter((item) => Number(item.id) !== id);
+      setStorage(STORAGE_KEYS.agendamentos, filtrados);
+      return { ok: true };
+    }
+  }
+
+  if (route === '/pedidos' || route.startsWith('/pedidos?')) {
+    const pedidos = parseStorage(STORAGE_KEYS.pedidos, []);
+    const usuario = exigirLogin();
+    if (method === 'GET') {
+      const lista = usuario.tipo === 'admin' || usuario.tipo === 'funcionario'
+        ? pedidos
+        : pedidos.filter((item) => Number(item.usuario_id) === Number(usuario.id));
+      return { pedidos: lista };
+    }
+    if (method === 'POST') {
+      const itens = body.itens || [];
+      const total = itens.reduce((soma, item) => soma + Number(item.preco || 0) * Number(item.quantidade || 0), 0);
+      const novoPedido = {
+        id: proximoId(pedidos),
+        usuario_id: usuario.id,
+        data: new Date().toISOString(),
+        total,
+        status: 'Pendente',
+        itens,
+      };
+      pedidos.push(novoPedido);
+      setStorage(STORAGE_KEYS.pedidos, pedidos);
+      return novoPedido;
+    }
+    throw new Error('Operação não suportada para pedidos.');
+  }
+
+  if (route.startsWith('/pedidos/')) {
+    const pedidos = parseStorage(STORAGE_KEYS.pedidos, []);
+    const id = Number(partes[1]);
+    const pedido = pedidos.find((item) => Number(item.id) === id);
+    if (!pedido) throw new Error('Pedido não encontrado.');
+    const usuario = exigirLogin();
+    if (usuario.id !== pedido.usuario_id && usuario.tipo !== 'admin' && usuario.tipo !== 'funcionario') {
+      throw new Error('Você não pode alterar este pedido.');
+    }
+    if (method === 'PUT') {
+      pedido.status = body.status || pedido.status;
+      setStorage(STORAGE_KEYS.pedidos, pedidos);
+      return pedido;
+    }
+  }
+
+  if (route === '/avaliacoes' || route.startsWith('/avaliacoes?')) {
+    const avaliacoes = listarAvaliacoes();
+    if (method === 'GET') {
+      const produtoId = Number(query.get('produto_id'));
+      if (!produtoId) return { avaliacoes: [] };
+      return { avaliacoes: avaliacoes.filter((a) => Number(a.produto_id) === produtoId).map(montarAvaliacao) };
+    }
+    if (method === 'POST') {
+      const usuario = exigirLogin();
+      const novaAvaliacao = {
+        id: proximoId(avaliacoes),
+        produto_id: Number(body.produto_id),
+        usuario_id: usuario.id,
+        nota: Number(body.nota || 0),
+        comentario: body.comentario || '',
+      };
+      avaliacoes.push(novaAvaliacao);
+      setStorage(STORAGE_KEYS.avaliacoes, avaliacoes);
+      return montarAvaliacao(novaAvaliacao);
+    }
+    throw new Error('Operação não suportada para avaliações.');
+  }
+
+  throw new Error('Rota não encontrada no modo frontend estático.');
+}
+
+const get = (caminho) => api(caminho, { method: 'GET' });
 const post = (caminho, corpo) => api(caminho, { method: 'POST', body: JSON.stringify(corpo) });
 const put = (caminho, corpo) => api(caminho, { method: 'PUT', body: JSON.stringify(corpo) });
 const del = (caminho) => api(caminho, { method: 'DELETE' });
@@ -77,7 +585,6 @@ function navegarComTransicao(url) {
   window.setTimeout(() => { window.location.href = url; }, 220);
 }
 
-/* ---------- FORMATAÇÃO ---------- */
 function formatarPreco(valor) {
   return Number(valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
@@ -96,8 +603,7 @@ function mostrarMensagem(elemento, texto, tipo = 'sucesso') {
   elemento.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-/* ---------- CARRINHO (localStorage) ---------- */
-const CHAVE_CARRINHO = 'pawfect_carrinho';
+const CHAVE_CARRINHO = STORAGE_KEYS.carrinho;
 
 function obterCarrinho() {
   try {
@@ -152,10 +658,8 @@ function atualizarContadorCarrinho() {
   });
 }
 
-/* ---------- CABEÇALHO: estado de login e menu mobile ---------- */
 async function inicializarCabecalho() {
   atualizarContadorCarrinho();
-
   const toggle = document.querySelector('.menu-toggle');
   const nav = document.querySelector('.main-nav');
   if (toggle && nav) {
@@ -207,6 +711,7 @@ async function exigirStaffOuRedirecionar() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  seedLocalStorage();
   inicializarCabecalho();
 
   document.addEventListener('click', (evento) => {
