@@ -23,27 +23,12 @@ app.use(
 );
 
 // Arquivos estáticos do frontend (HTML, CSS, JS, imagens)
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname)));
 
-// Rotas da API REST
-app.use('/api/produtos', require('./routes/produtos'));
-app.use('/api/categorias', require('./routes/categorias'));
-app.use('/api/usuarios', require('./routes/usuarios'));
-app.use('/api/pets', require('./routes/pets'));
-app.use('/api/servicos', require('./routes/servicos'));
-app.use('/api/agendamentos', require('./routes/agendamentos'));
-app.use('/api/pedidos', require('./routes/pedidos'));
-app.use('/api/avaliacoes', require('./routes/avaliacoes'));
-
-// Tratamento de erros genérico da API
-app.use('/api', (err, req, res, next) => {
-  console.error(err);
-  res.status(500).json({ erro: 'Erro interno do servidor.' });
-});
-
-// Qualquer rota não encontrada dentro de /api retorna JSON (não HTML)
-app.use('/api', (req, res) => {
-  res.status(404).json({ erro: 'Rota da API não encontrada.' });
+// Este projeto usa um frontend estático com dados em localStorage.
+// A API REST externa não é necessária para a experiência de loja e compra sem login.
+app.get('/health', (req, res) => {
+  res.json({ ok: true, mode: 'static-storefront' });
 });
 
 app.listen(PORT, () => {

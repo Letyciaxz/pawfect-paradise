@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meus Agendamentos | Pawfect Paradise</title>
+<title>My Appointments | Pawfect Paradise</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -35,29 +35,29 @@
 
 <div class="page-header">
   <div class="container">
-    <h1>Meus Agendamentos</h1>
-    <p class="breadcrumb">Home / Meus Agendamentos</p>
+    <h1>My Appointments</h1>
+    <p class="breadcrumb">Home / My Appointments</p>
   </div>
 </div>
 
 <main class="container secao" style="padding-top:0;">
   <div class="tabs">
-    <a href="perfil.html" class="tab-btn">Meus Dados</a>
-    <a href="pets.html" class="tab-btn">Meus Pets</a>
-    <a href="meus-pedidos.html" class="tab-btn">Meus Pedidos</a>
-    <a href="meus-agendamentos.html" class="tab-btn active">Meus Agendamentos</a>
+    <a href="perfil.html" class="tab-btn">My Details</a>
+    <a href="pets.html" class="tab-btn">My Pets</a>
+    <a href="meus-pedidos.html" class="tab-btn">My Orders</a>
+    <a href="meus-agendamentos.html" class="tab-btn active">My Appointments</a>
   </div>
 
   <div class="mensagem" id="mensagem"></div>
   <div style="text-align:right; margin-bottom:20px;">
-    <a href="agendamento.html" class="btn btn-primary">+ Novo Agendamento</a>
+    <a href="agendamento.html" class="btn btn-primary">+ New Appointment</a>
   </div>
 
   <div id="lista-agendamentos"></div>
 </main>
 
 <footer class="site-footer">
-  <div class="container footer-bottom">&copy; 2026 Pawfect Paradise. Todos os direitos reservados. Projeto acadêmico. Grupo: Jessica Hellen, Maria Leticia e Sarah Rebeca.</div>
+  <div class="container footer-bottom">&copy; 2026 Pawfect Paradise. All rights reserved. Academic project by Pawfect Dev Team.</div>
 </footer>
 
 <script src="app.js"></script>
@@ -73,30 +73,30 @@ async function carregar() {
   const agendamentos = await get('/agendamentos');
   const container = document.querySelector('#lista-agendamentos');
   if (agendamentos.length === 0) {
-    container.innerHTML = `<div class="empty-state"><div class="emoji">📅</div><p>Você ainda não tem agendamentos.</p></div>`;
+    container.innerHTML = `<div class="empty-state"><div class="emoji">📅</div><p>You do not have any appointments yet.</p></div>`;
     return;
   }
 
   container.innerHTML = agendamentos.map((a) => `
     <div class="card-lista">
       <div style="flex:1; min-width:200px;">
-        <strong>${a.servico_nome}</strong> para <strong>${a.pet_nome}</strong>
-        <br><small>${new Date(a.data + 'T00:00:00').toLocaleDateString('pt-BR')} às ${a.horario}</small>
+        <strong>${a.servico_nome}</strong> for <strong>${a.pet_nome}</strong>
+        <br><small>${new Date(a.data + 'T00:00:00').toLocaleDateString('en-US')} at ${a.horario}</small>
       </div>
       <span class="${classeBadge(a.status)}">${a.status}</span>
-      ${a.status === 'Agendado' || a.status === 'Confirmado'
-        ? `<button class="btn btn-danger btn-small" onclick="cancelar(${a.id})">Cancelar</button>`
+      ${a.status === 'Scheduled' || a.status === 'Confirmed'
+        ? `<button class="btn btn-danger btn-small" onclick="cancelar(${a.id})">Cancel</button>`
         : ''}
     </div>
   `).join('');
 }
 
 async function cancelar(id) {
-  if (!confirm('Tem certeza que deseja cancelar este agendamento?')) return;
+  if (!confirm('Are you sure you want to cancel this appointment?')) return;
   const msg = document.querySelector('#mensagem');
   try {
-    await put('/agendamentos/' + id, { status: 'Cancelado' });
-    mostrarMensagem(msg, 'Agendamento cancelado.', 'sucesso');
+    await put('/agendamentos/' + id, { status: 'Cancelled' });
+    mostrarMensagem(msg, 'Appointment cancelled.', 'sucesso');
     carregar();
   } catch (err) {
     mostrarMensagem(msg, err.message, 'erro');

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meus Pedidos | Pawfect Paradise</title>
+<title>My Orders | Pawfect Paradise</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -25,75 +25,67 @@
       <a href="admin.html" id="link-admin" style="display:none;">Admin</a>
     </nav>
     <div class="header-icons">
-      <a href="shop.html" class="icon-btn" title="Pesquisar">🔍</a>
-      <a href="login.html" class="icon-btn" id="link-usuario" title="Entrar">👤</a>
+      <a href="shop.html" class="icon-btn" title="Search">🔍</a>
+      <a href="perfil.html" class="icon-btn" id="link-usuario" title="Profile">👤</a>
       <a href="carrinho.html" class="icon-btn">🛒<span class="cart-count">0</span></a>
-      <button class="menu-toggle" aria-label="Abrir menu">☰</button>
+      <button class="menu-toggle" aria-label="Open menu">☰</button>
     </div>
   </div>
 </header>
 
 <div class="page-header">
   <div class="container">
-    <h1>Meus Pedidos</h1>
-    <p class="breadcrumb">Home / Meus Pedidos</p>
+    <h1>My Orders</h1>
+    <p class="breadcrumb">Home / My Orders</p>
   </div>
 </div>
 
 <main class="container secao" style="padding-top:0;">
-  <div class="tabs">
-    <a href="perfil.html" class="tab-btn">Meus Dados</a>
-    <a href="pets.html" class="tab-btn">Meus Pets</a>
-    <a href="meus-pedidos.html" class="tab-btn active">Meus Pedidos</a>
-    <a href="meus-agendamentos.html" class="tab-btn">Meus Agendamentos</a>
-  </div>
-
   <div id="lista-pedidos"></div>
 </main>
 
 <footer class="site-footer">
-  <div class="container footer-bottom">&copy; 2026 Pawfect Paradise. Todos os direitos reservados. Projeto acadêmico. Grupo: Jessica Hellen, Maria Leticia e Sarah Rebeca.</div>
+  <div class="container footer-bottom">&copy; 2026 Pawfect Paradise. All rights reserved. Academic project by Pawfect Dev Team.</div>
 </footer>
 
 <script src="app.js"></script>
 <script>
 function classeBadge(status) {
-  return 'badge badge-' + status.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  return 'badge badge-' + String(status || 'pending').toLowerCase().replace(/\s+/g, '');
 }
 
 async function carregar() {
   let pedidos = JSON.parse(localStorage.getItem('pawfect_pedidos') || '[]');
-  try {
-    const pedidosDoServidor = await get('/pedidos');
-    pedidos = [...pedidos, ...pedidosDoServidor];
-  } catch {
-    // No Go Live e no GitHub Pages, os pedidos ficam salvos no navegador.
-  }
   const container = document.querySelector('#lista-pedidos');
+
   if (pedidos.length === 0) {
-    container.innerHTML = `<div class="empty-state"><div class="emoji">📦</div><p>Você ainda não fez nenhum pedido.</p><a href="shop.html" class="btn btn-primary" style="margin-top:12px;">Ir às compras</a></div>`;
+    container.innerHTML = `<div class="empty-state"><div class="emoji">📦</div><p>You don't have any orders yet.</p><a href="shop.html" class="btn btn-primary" style="margin-top:12px;">Start Shopping</a></div>`;
     return;
   }
 
-  container.innerHTML = pedidos.map((p) => `
-    <div class="card-lista" style="flex-direction:column; align-items:stretch;">
-      <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;">
-        <strong>Pedido #${p.id}</strong>
-        <span class="${classeBadge(p.status)}">${p.status}</span>
+  container.innerHTML = pedidos.map((p) => {
+    const itens = Array.isArray(p.itens) ? p.itens : [];
+    const total = Number(p.valor_total ?? p.total ?? itens.reduce((sum, item) => sum + (Number(item.preco || 0) * Number(item.quantidade || 0)), 0));
+    return `
+      <div class="card-lista" style="flex-direction:column; align-items:stretch;">
+        <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+          <strong>Order #${p.id}</strong>
+          <span class="${classeBadge(p.status)}">${p.status || 'Pending'}</span>
+        </div>
+        <small style="color:var(--texto-medio);">${new Date(p.data).toLocaleString('en-US')}</small>
+        <div style="margin:10px 0;">
+          ${itens.map((item) => `
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+              <img src="${item.produto_imagem}" alt="${item.produto_nome}" style="width:40px;height:40px;object-fit:cover;border-radius:8px;">
+              <span>${item.quantidade}x ${item.produto_nome}</span>
+              <span style="margin-left:auto;">${formatarPreco(Number(item.preco || 0) * Number(item.quantidade || 0))}</span>
+            </div>
+          `).join('')}
+        </div>
+        <div style="text-align:right; font-weight:700;">Total: ${formatarPreco(total)}</div>
       </div>
-      <small style="color:var(--texto-medio);">${new Date(p.data).toLocaleString('pt-BR')}</small>
-      <div style="margin:10px 0;">
-        ${p.itens.map((item) => `
-          <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
-            <img src="${item.produto_imagem}" alt="${item.produto_nome}" style="width:40px;height:40px;object-fit:cover;border-radius:8px;">
-            <span>${item.quantidade}x ${item.produto_nome}</span>
-            <span style="margin-left:auto;">${formatarPreco(item.preco * item.quantidade)}</span>
-          </div>
-        `).join('')}
-      </div>
-      <div style="text-align:right; font-weight:700;">Total: ${formatarPreco(p.valor_total)}</div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 carregar();
 </script>

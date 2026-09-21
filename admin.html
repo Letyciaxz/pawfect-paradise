@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Área Administrativa | Pawfect Paradise</title>
+<title>Admin Dashboard | Pawfect Paradise</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -25,16 +25,16 @@
       <a href="admin.html" class="active">Admin</a>
     </nav>
     <div class="header-icons">
-      <a href="login.html" class="icon-btn" id="link-usuario" title="Entrar">👤</a>
+      <a href="perfil.html" class="icon-btn" id="link-usuario" title="Profile">👤</a>
       <a href="carrinho.html" class="icon-btn">🛒<span class="cart-count">0</span></a>
-      <button class="menu-toggle" aria-label="Abrir menu">☰</button>
+      <button class="menu-toggle" aria-label="Open menu">☰</button>
     </div>
   </div>
 </header>
 
 <div class="page-header">
   <div class="container">
-    <h1>Área Administrativa</h1>
+    <h1>Admin Dashboard</h1>
     <p class="breadcrumb" id="aviso-tipo"></p>
   </div>
 </div>
@@ -44,24 +44,24 @@
 
   <div class="admin-layout">
     <aside class="admin-sidebar">
-      <a href="#" class="aba-link active" data-aba="produtos">📦 Produtos</a>
-      <a href="#" class="aba-link" data-aba="categorias">🏷️ Categorias</a>
-      <a href="#" class="aba-link" data-aba="servicos">✂️ Serviços</a>
-      <a href="#" class="aba-link" data-aba="pedidos">🛍️ Pedidos</a>
-      <a href="#" class="aba-link" data-aba="agendamentos">📅 Agendamentos</a>
-      <a href="#" class="aba-link" data-aba="usuarios" id="aba-usuarios-link">👥 Usuários</a>
+      <a href="#" class="aba-link active" data-aba="produtos">📦 Products</a>
+      <a href="#" class="aba-link" data-aba="categorias">🏷️ Categories</a>
+      <a href="#" class="aba-link" data-aba="servicos">✂️ Services</a>
+      <a href="#" class="aba-link" data-aba="pedidos">🛍️ Orders</a>
+      <a href="#" class="aba-link" data-aba="agendamentos">📅 Bookings</a>
+      <a href="#" class="aba-link" data-aba="usuarios" id="aba-usuarios-link">👥 Users</a>
     </aside>
 
     <div class="admin-content">
       <!-- PRODUTOS -->
       <section id="aba-produtos" class="aba">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-          <h2>Produtos</h2>
-          <button class="btn btn-primary btn-small" id="btn-novo-produto">+ Novo Produto</button>
+          <h2>Products</h2>
+          <button class="btn btn-primary btn-small" id="btn-novo-produto">+ New Product</button>
         </div>
         <div style="overflow-x:auto;">
           <table class="admin-table">
-            <thead><tr><th>Imagem</th><th>Nome</th><th>Categoria</th><th>Preço</th><th>Estoque</th><th>Status</th><th>Ações</th></tr></thead>
+            <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Status</th><th>Actions</th></tr></thead>
             <tbody id="tbody-produtos"></tbody>
           </table>
         </div>
@@ -70,11 +70,11 @@
       <!-- CATEGORIAS -->
       <section id="aba-categorias" class="aba" style="display:none;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-          <h2>Categorias</h2>
-          <button class="btn btn-primary btn-small" id="btn-nova-categoria">+ Nova Categoria</button>
+          <h2>Categories</h2>
+          <button class="btn btn-primary btn-small" id="btn-nova-categoria">+ New Category</button>
         </div>
         <table class="admin-table">
-          <thead><tr><th>Nome</th><th>Descrição</th><th>Ações</th></tr></thead>
+          <thead><tr><th>Name</th><th>Description</th><th>Actions</th></tr></thead>
           <tbody id="tbody-categorias"></tbody>
         </table>
       </section>
@@ -82,38 +82,38 @@
       <!-- SERVIÇOS -->
       <section id="aba-servicos" class="aba" style="display:none;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-          <h2>Serviços</h2>
-          <button class="btn btn-primary btn-small" id="btn-novo-servico">+ Novo Serviço</button>
+          <h2>Services</h2>
+          <button class="btn btn-primary btn-small" id="btn-novo-servico">+ New Service</button>
         </div>
         <table class="admin-table">
-          <thead><tr><th>Nome</th><th>Preço</th><th>Duração</th><th>Ações</th></tr></thead>
+          <thead><tr><th>Name</th><th>Price</th><th>Duration</th><th>Actions</th></tr></thead>
           <tbody id="tbody-servicos"></tbody>
         </table>
       </section>
 
       <!-- PEDIDOS -->
       <section id="aba-pedidos" class="aba" style="display:none;">
-        <h2 style="margin-bottom:16px;">Pedidos</h2>
+        <h2 style="margin-bottom:16px;">Orders</h2>
         <table class="admin-table">
-          <thead><tr><th>#</th><th>Cliente</th><th>Data</th><th>Total</th><th>Status</th></tr></thead>
+          <thead><tr><th>#</th><th>Customer</th><th>Date</th><th>Total</th><th>Status</th></tr></thead>
           <tbody id="tbody-pedidos"></tbody>
         </table>
       </section>
 
       <!-- AGENDAMENTOS -->
       <section id="aba-agendamentos" class="aba" style="display:none;">
-        <h2 style="margin-bottom:16px;">Agendamentos</h2>
+        <h2 style="margin-bottom:16px;">Bookings</h2>
         <table class="admin-table">
-          <thead><tr><th>Cliente</th><th>Pet</th><th>Serviço</th><th>Data</th><th>Status</th></tr></thead>
+          <thead><tr><th>Customer</th><th>Pet</th><th>Service</th><th>Date</th><th>Status</th></tr></thead>
           <tbody id="tbody-agendamentos"></tbody>
         </table>
       </section>
 
       <!-- USUÁRIOS -->
       <section id="aba-usuarios" class="aba" style="display:none;">
-        <h2 style="margin-bottom:16px;">Usuários</h2>
+        <h2 style="margin-bottom:16px;">Users</h2>
         <table class="admin-table">
-          <thead><tr><th>Nome</th><th>E-mail</th><th>Tipo</th><th>Ações</th></tr></thead>
+          <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Actions</th></tr></thead>
           <tbody id="tbody-usuarios"></tbody>
         </table>
       </section>
@@ -124,21 +124,21 @@
 <!-- MODAL PRODUTO -->
 <div class="modal-overlay" id="modal-produto">
   <div class="modal-box">
-    <h3 id="titulo-modal-produto">Novo Produto</h3>
+    <h3 id="titulo-modal-produto">New Product</h3>
     <form id="form-produto">
       <input type="hidden" id="produto-id">
-      <div class="campo"><label>Nome <span class="obrigatorio">*</span></label><input type="text" id="produto-nome" required></div>
-      <div class="campo"><label>Descrição</label><textarea id="produto-descricao"></textarea></div>
-      <div class="campo"><label>Preço (R$) <span class="obrigatorio">*</span></label><input type="number" id="produto-preco" step="0.01" min="0" required></div>
-      <div class="campo"><label>Estoque</label><input type="number" id="produto-estoque" min="0" value="0"></div>
-      <div class="campo"><label>URL da imagem</label><input type="text" id="produto-imagem" placeholder="https://..."></div>
-      <div class="campo"><label>Categoria</label><select id="produto-categoria"></select></div>
+      <div class="campo"><label>Name <span class="obrigatorio">*</span></label><input type="text" id="produto-nome" required></div>
+      <div class="campo"><label>Description</label><textarea id="produto-descricao"></textarea></div>
+      <div class="campo"><label>Price (USD) <span class="obrigatorio">*</span></label><input type="number" id="produto-preco" step="0.01" min="0" required></div>
+      <div class="campo"><label>Stock</label><input type="number" id="produto-estoque" min="0" value="0"></div>
+      <div class="campo"><label>Image URL</label><input type="text" id="produto-imagem" placeholder="https://..."></div>
+      <div class="campo"><label>Category</label><select id="produto-categoria"></select></div>
       <div class="campo"><label>Status</label>
-        <select id="produto-status"><option value="ativo">Ativo</option><option value="inativo">Inativo</option></select>
+        <select id="produto-status"><option value="ativo">Active</option><option value="inativo">Inactive</option></select>
       </div>
       <div class="modal-acoes">
-        <button type="button" class="btn btn-secondary" onclick="fecharModal('modal-produto')">Cancelar</button>
-        <button type="submit" class="btn btn-primary">Salvar</button>
+        <button type="button" class="btn btn-secondary" onclick="fecharModal('modal-produto')">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save</button>
       </div>
     </form>
   </div>
@@ -147,15 +147,15 @@
 <!-- MODAL CATEGORIA -->
 <div class="modal-overlay" id="modal-categoria">
   <div class="modal-box">
-    <h3 id="titulo-modal-categoria">Nova Categoria</h3>
+    <h3 id="titulo-modal-categoria">New Category</h3>
     <form id="form-categoria">
       <input type="hidden" id="categoria-id">
-      <div class="campo"><label>Nome <span class="obrigatorio">*</span></label><input type="text" id="categoria-nome" required></div>
-      <div class="campo"><label>Descrição</label><textarea id="categoria-descricao"></textarea></div>
-      <div class="campo"><label>URL da imagem</label><input type="text" id="categoria-imagem" placeholder="https://..."></div>
+      <div class="campo"><label>Name <span class="obrigatorio">*</span></label><input type="text" id="categoria-nome" required></div>
+      <div class="campo"><label>Description</label><textarea id="categoria-descricao"></textarea></div>
+      <div class="campo"><label>Image URL</label><input type="text" id="categoria-imagem" placeholder="https://..."></div>
       <div class="modal-acoes">
-        <button type="button" class="btn btn-secondary" onclick="fecharModal('modal-categoria')">Cancelar</button>
-        <button type="submit" class="btn btn-primary">Salvar</button>
+        <button type="button" class="btn btn-secondary" onclick="fecharModal('modal-categoria')">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save</button>
       </div>
     </form>
   </div>
@@ -164,24 +164,24 @@
 <!-- MODAL SERVIÇO -->
 <div class="modal-overlay" id="modal-servico">
   <div class="modal-box">
-    <h3 id="titulo-modal-servico">Novo Serviço</h3>
+    <h3 id="titulo-modal-servico">New Service</h3>
     <form id="form-servico">
       <input type="hidden" id="servico-id">
-      <div class="campo"><label>Nome <span class="obrigatorio">*</span></label><input type="text" id="servico-nome" required></div>
-      <div class="campo"><label>Descrição</label><textarea id="servico-descricao"></textarea></div>
-      <div class="campo"><label>Preço (R$) <span class="obrigatorio">*</span></label><input type="number" id="servico-preco" step="0.01" min="0" required></div>
-      <div class="campo"><label>Duração (minutos)</label><input type="number" id="servico-duracao" min="0"></div>
-      <div class="campo"><label>URL da imagem</label><input type="text" id="servico-imagem" placeholder="https://..."></div>
+      <div class="campo"><label>Name <span class="obrigatorio">*</span></label><input type="text" id="servico-nome" required></div>
+      <div class="campo"><label>Description</label><textarea id="servico-descricao"></textarea></div>
+      <div class="campo"><label>Price (USD) <span class="obrigatorio">*</span></label><input type="number" id="servico-preco" step="0.01" min="0" required></div>
+      <div class="campo"><label>Duration (minutes)</label><input type="number" id="servico-duracao" min="0"></div>
+      <div class="campo"><label>Image URL</label><input type="text" id="servico-imagem" placeholder="https://..."></div>
       <div class="modal-acoes">
-        <button type="button" class="btn btn-secondary" onclick="fecharModal('modal-servico')">Cancelar</button>
-        <button type="submit" class="btn btn-primary">Salvar</button>
+        <button type="button" class="btn btn-secondary" onclick="fecharModal('modal-servico')">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save</button>
       </div>
     </form>
   </div>
 </div>
 
 <footer class="site-footer">
-  <div class="container footer-bottom">&copy; 2026 Pawfect Paradise. Todos os direitos reservados. Projeto acadêmico. Grupo: Jessica Hellen, Maria Leticia e Sarah Rebeca.</div>
+  <div class="container footer-bottom">&copy; 2026 Pawfect Paradise. All rights reserved. Academic project by Pawfect Dev Team.</div>
 </footer>
 
 <script src="app.js"></script>
@@ -222,8 +222,8 @@ async function carregarProdutosAdmin() {
       <td>${p.estoque}</td>
       <td><span class="badge badge-${p.status}">${p.status}</span></td>
       <td class="acoes-tabela">
-        <button class="btn-secondary" onclick='abrirEdicaoProduto(${JSON.stringify(p)})'>Editar</button>
-        <button class="btn-danger" onclick="excluirProduto(${p.id})">Excluir</button>
+        <button class="btn-secondary" onclick='abrirEdicaoProduto(${JSON.stringify(p)})'>Edit</button>
+        <button class="btn-danger" onclick="excluirProduto(${p.id})">Delete</button>
       </td>
     </tr>
   `).join('');
@@ -231,18 +231,18 @@ async function carregarProdutosAdmin() {
 
 function preencherSelectCategorias() {
   document.querySelector('#produto-categoria').innerHTML =
-    '<option value="">Sem categoria</option>' + categoriasCache.map((c) => `<option value="${c.id}">${c.nome}</option>`).join('');
+    '<option value="">No category</option>' + categoriasCache.map((c) => `<option value="${c.id}">${c.nome}</option>`).join('');
 }
 
 document.querySelector('#btn-novo-produto').addEventListener('click', () => {
-  document.querySelector('#titulo-modal-produto').textContent = 'Novo Produto';
+  document.querySelector('#titulo-modal-produto').textContent = 'New Product';
   document.querySelector('#produto-id').value = '';
   preencherSelectCategorias();
   abrirModal('modal-produto');
 });
 
 function abrirEdicaoProduto(p) {
-  document.querySelector('#titulo-modal-produto').textContent = 'Editar Produto';
+  document.querySelector('#titulo-modal-produto').textContent = 'Edit Product';
   preencherSelectCategorias();
   document.querySelector('#produto-id').value = p.id;
   document.querySelector('#produto-nome').value = p.nome;
@@ -269,18 +269,18 @@ document.querySelector('#form-produto').addEventListener('submit', async (e) => 
     status: document.querySelector('#produto-status').value,
   };
   try {
-    if (id) { await put('/produtos/' + id, corpo); mostrarMensagem(msg, 'Produto atualizado com sucesso!'); }
-    else { await post('/produtos', corpo); mostrarMensagem(msg, 'Produto cadastrado com sucesso!'); }
+    if (id) { await put('/produtos/' + id, corpo); mostrarMensagem(msg, 'Product updated successfully!'); }
+    else { await post('/produtos', corpo); mostrarMensagem(msg, 'Product created successfully!'); }
     fecharModal('modal-produto');
     carregarProdutosAdmin();
   } catch (err) { mostrarMensagem(msg, err.message, 'erro'); }
 });
 
 async function excluirProduto(id) {
-  if (!confirm('Tem certeza que deseja excluir este produto?')) return;
+  if (!confirm('Are you sure you want to delete this product?')) return;
   try {
     await del('/produtos/' + id);
-    mostrarMensagem(document.querySelector('#mensagem'), 'Produto excluído com sucesso!');
+    mostrarMensagem(document.querySelector('#mensagem'), 'Product deleted successfully!');
     carregarProdutosAdmin();
   } catch (err) { mostrarMensagem(document.querySelector('#mensagem'), err.message, 'erro'); }
 }
@@ -293,21 +293,21 @@ async function carregarCategoriasAdmin() {
       <td>${c.nome}</td>
       <td>${c.descricao || '-'}</td>
       <td class="acoes-tabela">
-        <button class="btn-secondary" onclick='abrirEdicaoCategoria(${JSON.stringify(c)})'>Editar</button>
-        <button class="btn-danger" onclick="excluirCategoria(${c.id})">Excluir</button>
+        <button class="btn-secondary" onclick='abrirEdicaoCategoria(${JSON.stringify(c)})'>Edit</button>
+        <button class="btn-danger" onclick="excluirCategoria(${c.id})">Delete</button>
       </td>
     </tr>
   `).join('');
 }
 
 document.querySelector('#btn-nova-categoria').addEventListener('click', () => {
-  document.querySelector('#titulo-modal-categoria').textContent = 'Nova Categoria';
+  document.querySelector('#titulo-modal-categoria').textContent = 'New Category';
   document.querySelector('#categoria-id').value = '';
   abrirModal('modal-categoria');
 });
 
 function abrirEdicaoCategoria(c) {
-  document.querySelector('#titulo-modal-categoria').textContent = 'Editar Categoria';
+  document.querySelector('#titulo-modal-categoria').textContent = 'Edit Category';
   document.querySelector('#categoria-id').value = c.id;
   document.querySelector('#categoria-nome').value = c.nome;
   document.querySelector('#categoria-descricao').value = c.descricao || '';
@@ -325,18 +325,18 @@ document.querySelector('#form-categoria').addEventListener('submit', async (e) =
     imagem: document.querySelector('#categoria-imagem').value,
   };
   try {
-    if (id) { await put('/categorias/' + id, corpo); mostrarMensagem(msg, 'Categoria atualizada com sucesso!'); }
-    else { await post('/categorias', corpo); mostrarMensagem(msg, 'Categoria cadastrada com sucesso!'); }
+    if (id) { await put('/categorias/' + id, corpo); mostrarMensagem(msg, 'Category updated successfully!'); }
+    else { await post('/categorias', corpo); mostrarMensagem(msg, 'Category created successfully!'); }
     fecharModal('modal-categoria');
     carregarCategoriasAdmin();
   } catch (err) { mostrarMensagem(msg, err.message, 'erro'); }
 });
 
 async function excluirCategoria(id) {
-  if (!confirm('Tem certeza que deseja excluir esta categoria?')) return;
+  if (!confirm('Are you sure you want to delete this category?')) return;
   try {
     await del('/categorias/' + id);
-    mostrarMensagem(document.querySelector('#mensagem'), 'Categoria excluída com sucesso!');
+    mostrarMensagem(document.querySelector('#mensagem'), 'Category deleted successfully!');
     carregarCategoriasAdmin();
   } catch (err) { mostrarMensagem(document.querySelector('#mensagem'), err.message, 'erro'); }
 }
@@ -350,21 +350,21 @@ async function carregarServicosAdmin() {
       <td>${formatarPreco(s.preco)}</td>
       <td>${s.duracao || '-'} min</td>
       <td class="acoes-tabela">
-        <button class="btn-secondary" onclick='abrirEdicaoServico(${JSON.stringify(s)})'>Editar</button>
-        <button class="btn-danger" onclick="excluirServico(${s.id})">Excluir</button>
+        <button class="btn-secondary" onclick='abrirEdicaoServico(${JSON.stringify(s)})'>Edit</button>
+        <button class="btn-danger" onclick="excluirServico(${s.id})">Delete</button>
       </td>
     </tr>
   `).join('');
 }
 
 document.querySelector('#btn-novo-servico').addEventListener('click', () => {
-  document.querySelector('#titulo-modal-servico').textContent = 'Novo Serviço';
+  document.querySelector('#titulo-modal-servico').textContent = 'New Service';
   document.querySelector('#servico-id').value = '';
   abrirModal('modal-servico');
 });
 
 function abrirEdicaoServico(s) {
-  document.querySelector('#titulo-modal-servico').textContent = 'Editar Serviço';
+  document.querySelector('#titulo-modal-servico').textContent = 'Edit Service';
   document.querySelector('#servico-id').value = s.id;
   document.querySelector('#servico-nome').value = s.nome;
   document.querySelector('#servico-descricao').value = s.descricao || '';
@@ -386,31 +386,31 @@ document.querySelector('#form-servico').addEventListener('submit', async (e) => 
     imagem: document.querySelector('#servico-imagem').value,
   };
   try {
-    if (id) { await put('/servicos/' + id, corpo); mostrarMensagem(msg, 'Serviço atualizado com sucesso!'); }
-    else { await post('/servicos', corpo); mostrarMensagem(msg, 'Serviço cadastrado com sucesso!'); }
+    if (id) { await put('/servicos/' + id, corpo); mostrarMensagem(msg, 'Service updated successfully!'); }
+    else { await post('/servicos', corpo); mostrarMensagem(msg, 'Service created successfully!'); }
     fecharModal('modal-servico');
     carregarServicosAdmin();
   } catch (err) { mostrarMensagem(msg, err.message, 'erro'); }
 });
 
 async function excluirServico(id) {
-  if (!confirm('Tem certeza que deseja excluir este serviço?')) return;
+  if (!confirm('Are you sure you want to delete this service?')) return;
   try {
     await del('/servicos/' + id);
-    mostrarMensagem(document.querySelector('#mensagem'), 'Serviço excluído com sucesso!');
+    mostrarMensagem(document.querySelector('#mensagem'), 'Service deleted successfully!');
     carregarServicosAdmin();
   } catch (err) { mostrarMensagem(document.querySelector('#mensagem'), err.message, 'erro'); }
 }
 
 /* ---------- PEDIDOS ---------- */
-const STATUS_PEDIDO = ['Pendente', 'Pago', 'Enviado', 'Entregue', 'Cancelado'];
+const STATUS_PEDIDO = ['Pending', 'Paid', 'Shipped', 'Delivered', 'Cancelled'];
 async function carregarPedidosAdmin() {
   const pedidos = await get('/pedidos');
   document.querySelector('#tbody-pedidos').innerHTML = pedidos.map((p) => `
     <tr>
       <td>#${p.id}</td>
       <td>${p.cliente_nome}</td>
-      <td>${new Date(p.data).toLocaleDateString('pt-BR')}</td>
+      <td>${new Date(p.data).toLocaleDateString('en-US')}</td>
       <td>${formatarPreco(p.valor_total)}</td>
       <td>
         <select onchange="atualizarStatusPedido(${p.id}, this.value)">
@@ -424,12 +424,12 @@ async function carregarPedidosAdmin() {
 async function atualizarStatusPedido(id, status) {
   try {
     await put('/pedidos/' + id, { status });
-    mostrarMensagem(document.querySelector('#mensagem'), 'Status do pedido atualizado com sucesso!');
+    mostrarMensagem(document.querySelector('#mensagem'), 'Order status updated successfully!');
   } catch (err) { mostrarMensagem(document.querySelector('#mensagem'), err.message, 'erro'); }
 }
 
 /* ---------- AGENDAMENTOS ---------- */
-const STATUS_AGENDAMENTO = ['Agendado', 'Confirmado', 'Concluído', 'Cancelado'];
+const STATUS_AGENDAMENTO = ['Scheduled', 'Confirmed', 'Completed', 'Cancelled'];
 async function carregarAgendamentosAdmin() {
   const agendamentos = await get('/agendamentos');
   document.querySelector('#tbody-agendamentos').innerHTML = agendamentos.map((a) => `
@@ -437,7 +437,7 @@ async function carregarAgendamentosAdmin() {
       <td>${a.cliente_nome}</td>
       <td>${a.pet_nome}</td>
       <td>${a.servico_nome}</td>
-      <td>${new Date(a.data + 'T00:00:00').toLocaleDateString('pt-BR')} ${a.horario}</td>
+      <td>${new Date(a.data + 'T00:00:00').toLocaleDateString('en-US')} ${a.horario}</td>
       <td>
         <select onchange="atualizarStatusAgendamento(${a.id}, this.value)">
           ${STATUS_AGENDAMENTO.map((s) => `<option value="${s}" ${s === a.status ? 'selected' : ''}>${s}</option>`).join('')}
@@ -450,11 +450,11 @@ async function carregarAgendamentosAdmin() {
 async function atualizarStatusAgendamento(id, status) {
   try {
     await put('/agendamentos/' + id, { status });
-    mostrarMensagem(document.querySelector('#mensagem'), 'Status do agendamento atualizado com sucesso!');
+    mostrarMensagem(document.querySelector('#mensagem'), 'Appointment status updated successfully!');
   } catch (err) { mostrarMensagem(document.querySelector('#mensagem'), err.message, 'erro'); }
 }
 
-/* ---------- USUÁRIOS (somente admin) ---------- */
+/* ---------- USUÁRIOS (admin only) ---------- */
 async function carregarUsuariosAdmin() {
   try {
     const usuarios = await get('/usuarios');
@@ -464,13 +464,13 @@ async function carregarUsuariosAdmin() {
         <td>${u.email}</td>
         <td>
           <select onchange="atualizarTipoUsuario(${u.id}, this.value)" ${u.id === usuarioLogado.id ? 'disabled' : ''}>
-            <option value="cliente" ${u.tipo === 'cliente' ? 'selected' : ''}>Cliente</option>
-            <option value="funcionario" ${u.tipo === 'funcionario' ? 'selected' : ''}>Funcionário</option>
+            <option value="cliente" ${u.tipo === 'cliente' ? 'selected' : ''}>Customer</option>
+            <option value="funcionario" ${u.tipo === 'funcionario' ? 'selected' : ''}>Employee</option>
             <option value="admin" ${u.tipo === 'admin' ? 'selected' : ''}>Admin</option>
           </select>
         </td>
         <td class="acoes-tabela">
-          <button class="btn-danger" ${u.id === usuarioLogado.id ? 'disabled' : ''} onclick="excluirUsuario(${u.id})">Excluir</button>
+          <button class="btn-danger" ${u.id === usuarioLogado.id ? 'disabled' : ''} onclick="excluirUsuario(${u.id})">Delete</button>
         </td>
       </tr>
     `).join('');
@@ -482,28 +482,28 @@ async function carregarUsuariosAdmin() {
 async function atualizarTipoUsuario(id, tipo) {
   try {
     await put('/usuarios/' + id, { tipo });
-    mostrarMensagem(document.querySelector('#mensagem'), 'Permissão do usuário atualizada com sucesso!');
+    mostrarMensagem(document.querySelector('#mensagem'), 'User access updated successfully!');
   } catch (err) { mostrarMensagem(document.querySelector('#mensagem'), err.message, 'erro'); }
 }
 
 async function excluirUsuario(id) {
-  if (!confirm('Tem certeza que deseja excluir este usuário?')) return;
+  if (!confirm('Are you sure you want to delete this user?')) return;
   try {
     await del('/usuarios/' + id);
-    mostrarMensagem(document.querySelector('#mensagem'), 'Usuário excluído com sucesso!');
+    mostrarMensagem(document.querySelector('#mensagem'), 'User deleted successfully!');
     carregarUsuariosAdmin();
   } catch (err) { mostrarMensagem(document.querySelector('#mensagem'), err.message, 'erro'); }
 }
 
-/* ---------- INICIALIZAÇÃO ---------- */
+/* ---------- INITIALIZATION ---------- */
 async function inicializarAdmin() {
   usuarioLogado = await exigirStaffOuRedirecionar();
   if (!usuarioLogado) return;
 
-  document.querySelector('#aviso-tipo').textContent = `Logado como ${usuarioLogado.nome} (${usuarioLogado.tipo})`;
+  document.querySelector('#aviso-tipo').textContent = `Logged in as ${usuarioLogado.nome} (${usuarioLogado.tipo})`;
 
   if (usuarioLogado.tipo !== 'admin') {
-    // funcionário não gerencia produtos/categorias/serviços/usuários, só vê pedidos e agendamentos
+    // staff members manage only orders and appointments
     document.querySelectorAll('[data-aba="produtos"], [data-aba="categorias"], [data-aba="servicos"], [data-aba="usuarios"]').forEach((el) => el.style.display = 'none');
     document.querySelector('[data-aba="pedidos"]').click();
   }

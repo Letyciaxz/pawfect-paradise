@@ -18,42 +18,42 @@ const STORAGE_KEYS = {
 };
 
 const usuariosOffline = [
-  { id: 1, nome: 'Administrador', email: 'admin@pawfect.com', senha: '123456', tipo: 'admin' },
-  { id: 2, nome: 'Funcionário', email: 'funcionario@pawfect.com', senha: '123456', tipo: 'funcionario' },
-  { id: 3, nome: 'Cliente Demo', email: 'cliente@pawfect.com', senha: '123456', tipo: 'cliente' },
+  { id: 1, nome: 'Administrator', email: 'admin@pawfect.com', senha: '123456', tipo: 'admin' },
+  { id: 2, nome: 'Employee', email: 'funcionario@pawfect.com', senha: '123456', tipo: 'funcionario' },
+  { id: 3, nome: 'Demo Customer', email: 'cliente@pawfect.com', senha: '123456', tipo: 'cliente' },
 ];
 
 const produtosOffline = [
-  { id: 1, nome: 'Cama Redonda Rosa', descricao: 'Cama macia e redonda, ideal para cães e gatos pequenos', preco: 129.9, estoque: 12, imagem: 'https://placedog.net/500/400?id=20', categoria_id: 1, status: 'ativo' },
-  { id: 2, nome: 'Tapete Higiênico Premium', descricao: 'Pacote com 30 unidades, alta absorção', preco: 59.9, estoque: 20, imagem: 'https://placedog.net/500/400?id=21', categoria_id: 1, status: 'ativo' },
-  { id: 3, nome: 'Dinossauro de Pelúcia', descricao: 'Brinquedo resistente para mastigar', preco: 39.9, estoque: 18, imagem: 'https://placedog.net/500/400?id=22', categoria_id: 2, status: 'ativo' },
-  { id: 4, nome: 'Bolinha Interativa', descricao: 'Bolinha com guizo para estimular o pet', preco: 24.9, estoque: 30, imagem: 'https://placedog.net/500/400?id=23', categoria_id: 2, status: 'ativo' },
-  { id: 5, nome: 'Moletom Pet Rosa', descricao: 'Moletom quentinho para dias frios', preco: 79.9, estoque: 15, imagem: 'https://placedog.net/500/400?id=24', categoria_id: 3, status: 'ativo' },
-  { id: 6, nome: 'Bandana Estampada', descricao: 'Bandana ajustável, tamanho único', preco: 19.9, estoque: 25, imagem: 'https://placedog.net/500/400?id=25', categoria_id: 3, status: 'ativo' },
-  { id: 7, nome: 'Ração Premium 10kg', descricao: 'Ração completa para cães adultos', preco: 189.9, estoque: 10, imagem: 'https://placedog.net/500/400?id=26', categoria_id: 4, status: 'ativo' },
-  { id: 8, nome: 'Pote Duplo Inox', descricao: 'Pote duplo para água e ração', preco: 49.9, estoque: 14, imagem: 'https://placedog.net/500/400?id=27', categoria_id: 4, status: 'ativo' },
-  { id: 9, nome: 'Shampoo Neutro 500ml', descricao: 'Shampoo hipoalergênico para pele sensível', preco: 34.9, estoque: 16, imagem: 'https://placedog.net/500/400?id=28', categoria_id: 5, status: 'ativo' },
-  { id: 10, nome: 'Escova Removedora de Pelos', descricao: 'Remove pelos soltos sem machucar', preco: 44.9, estoque: 22, imagem: 'https://placedog.net/500/400?id=29', categoria_id: 5, status: 'ativo' },
+  { id: 1, nome: 'Pink Round Bed', descricao: 'Soft and round bed, ideal for small dogs and cats', preco: 129.9, estoque: 12, imagem: 'https://placedog.net/500/400?id=20', categoria_id: 1, status: 'ativo' },
+  { id: 2, nome: 'Premium Hygiene Mat', descricao: 'Pack of 30 units with high absorption', preco: 59.9, estoque: 20, imagem: 'https://placedog.net/500/400?id=21', categoria_id: 1, status: 'ativo' },
+  { id: 3, nome: 'Plush Dinosaur', descricao: 'Durable chew toy for active pets', preco: 39.9, estoque: 18, imagem: 'https://placedog.net/500/400?id=22', categoria_id: 2, status: 'ativo' },
+  { id: 4, nome: 'Interactive Ball', descricao: 'Jingle ball to keep your pet engaged', preco: 24.9, estoque: 30, imagem: 'https://placedog.net/500/400?id=23', categoria_id: 2, status: 'ativo' },
+  { id: 5, nome: 'Pink Pet Hoodie', descricao: 'Cozy sweatshirt for chilly days', preco: 79.9, estoque: 15, imagem: 'https://placedog.net/500/400?id=24', categoria_id: 3, status: 'ativo' },
+  { id: 6, nome: 'Printed Bandana', descricao: 'Adjustable bandana in one size', preco: 19.9, estoque: 25, imagem: 'https://placedog.net/500/400?id=25', categoria_id: 3, status: 'ativo' },
+  { id: 7, nome: 'Premium Food 10kg', descricao: 'Complete dry food for adult dogs', preco: 189.9, estoque: 10, imagem: 'https://placedog.net/500/400?id=26', categoria_id: 4, status: 'ativo' },
+  { id: 8, nome: 'Double Stainless Bowl', descricao: 'Two-compartment bowl for food and water', preco: 49.9, estoque: 14, imagem: 'https://placedog.net/500/400?id=27', categoria_id: 4, status: 'ativo' },
+  { id: 9, nome: 'Neutral Shampoo 500ml', descricao: 'Hypoallergenic shampoo for sensitive skin', preco: 34.9, estoque: 16, imagem: 'https://placedog.net/500/400?id=28', categoria_id: 5, status: 'ativo' },
+  { id: 10, nome: 'Hair Removal Brush', descricao: 'Removes loose fur without irritating the coat', preco: 44.9, estoque: 22, imagem: 'https://placedog.net/500/400?id=29', categoria_id: 5, status: 'ativo' },
 ];
 
 const categoriasOffline = [
-  { id: 1, nome: 'Camas e Tapetes', descricao: 'Itens de conforto e descanso', imagem: 'https://placedog.net/400/300?id=10' },
-  { id: 2, nome: 'Brinquedos', descricao: 'Diversão e estímulo para o pet', imagem: 'https://placedog.net/400/300?id=11' },
-  { id: 3, nome: 'Roupinhas', descricao: 'Looks fofos e funcionais', imagem: 'https://placedog.net/400/300?id=12' },
-  { id: 4, nome: 'Alimentação', descricao: 'Ração, potes e itens para o dia a dia', imagem: 'https://placedog.net/400/300?id=13' },
-  { id: 5, nome: 'Higiene', descricao: 'Produtos de banho e bem-estar', imagem: 'https://placedog.net/400/300?id=14' },
+  { id: 1, nome: 'Beds & Mats', descricao: 'Comfort and rest essentials', imagem: 'https://placedog.net/400/300?id=10' },
+  { id: 2, nome: 'Toys', descricao: 'Fun and stimulation for your pet', imagem: 'https://placedog.net/400/300?id=11' },
+  { id: 3, nome: 'Clothing', descricao: 'Cute and functional pet looks', imagem: 'https://placedog.net/400/300?id=12' },
+  { id: 4, nome: 'Feeding', descricao: 'Food, bowls, and daily essentials', imagem: 'https://placedog.net/400/300?id=13' },
+  { id: 5, nome: 'Hygiene', descricao: 'Bath and wellness essentials', imagem: 'https://placedog.net/400/300?id=14' },
 ];
 
 const servicosOffline = [
-  { id: 1, nome: 'Banho', descricao: 'Banho completo com produtos hipoalergênicos', preco: 60, duracao: 60, imagem: 'https://placedog.net/400/300?id=30' },
-  { id: 2, nome: 'Tosa', descricao: 'Tosa higiênica ou na tesoura, conforme o pet', preco: 80, duracao: 90, imagem: 'https://placedog.net/400/300?id=31' },
-  { id: 3, nome: 'Consulta Veterinária', descricao: 'Consulta de rotina com veterinário parceiro', preco: 150, duracao: 30, imagem: 'https://placedog.net/400/300?id=32' },
-  { id: 4, nome: 'Vacinação', descricao: 'Aplicação de vacinas essenciais', preco: 90, duracao: 20, imagem: 'https://placedog.net/400/300?id=33' },
+  { id: 1, nome: 'Bath', descricao: 'Full bath with hypoallergenic products', preco: 60, duracao: 60, imagem: 'https://placedog.net/400/300?id=30' },
+  { id: 2, nome: 'Grooming', descricao: 'Hygienic trim or scissors cut, as needed', preco: 80, duracao: 90, imagem: 'https://placedog.net/400/300?id=31' },
+  { id: 3, nome: 'Veterinary Consultation', descricao: 'Routine consultation with a partner veterinarian', preco: 150, duracao: 30, imagem: 'https://placedog.net/400/300?id=32' },
+  { id: 4, nome: 'Vaccination', descricao: 'Essential vaccine application', preco: 90, duracao: 20, imagem: 'https://placedog.net/400/300?id=33' },
 ];
 
 const petsOffline = [
-  { id: 1, usuario_id: 3, nome: 'Luna', tipo: 'Cachorro', raca: 'Shih Tzu', idade: '2 anos', observacoes: 'Muito calma e carinhosa' },
-  { id: 2, usuario_id: 3, nome: 'Mimi', tipo: 'Gato', raca: 'Siamesa', idade: '1 ano', observacoes: 'Adora brincar' },
+  { id: 1, usuario_id: 3, nome: 'Luna', tipo: 'Dog', raca: 'Shih Tzu', idade: '2 years', observacoes: 'Very calm and affectionate' },
+  { id: 2, usuario_id: 3, nome: 'Mimi', tipo: 'Cat', raca: 'Siamese', idade: '1 year', observacoes: 'Loves to play' },
 ];
 
 function parseStorage(key, fallback) {
@@ -70,7 +70,78 @@ function setStorage(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
+function normalizarDadosIngles() {
+  const produtos = parseStorage(STORAGE_KEYS.produtos, produtosOffline);
+  const categorias = parseStorage(STORAGE_KEYS.categorias, categoriasOffline);
+  const servicos = parseStorage(STORAGE_KEYS.servicos, servicosOffline);
+  const usuarios = parseStorage(STORAGE_KEYS.usuarios, usuariosOffline);
+
+  const remapProdutos = {
+    'Cama Redonda Rosa': 'Pink Round Bed',
+    'Tapete Higiênico Premium': 'Premium Hygiene Mat',
+    'Dinossauro de Pelúcia': 'Plush Dinosaur',
+    'Bolinha Interativa': 'Interactive Ball',
+    'Moletom Pet Rosa': 'Pink Pet Hoodie',
+    'Bandana Estampada': 'Printed Bandana',
+    'Ração Premium 10kg': 'Premium Food 10kg',
+    'Pote Duplo Inox': 'Double Stainless Bowl',
+    'Shampoo Neutro 500ml': 'Neutral Shampoo 500ml',
+    'Escova Removedora de Pelos': 'Hair Removal Brush',
+  };
+
+  const remapCategorias = {
+    'Camas e Tapetes': 'Beds & Mats',
+    'Brinquedos': 'Toys',
+    'Roupinhas': 'Clothing',
+    'Alimentação': 'Feeding',
+    'Higiene': 'Hygiene',
+  };
+
+  const remapServicos = {
+    Banho: 'Bath',
+    Tosa: 'Grooming',
+    'Consulta Veterinária': 'Veterinary Consultation',
+    Vacinação: 'Vaccination',
+  };
+
+  const remapUsuarios = {
+    Administrador: 'Administrator',
+    Funcionário: 'Employee',
+    'Cliente Demo': 'Demo Customer',
+  };
+
+  const produtosAtualizados = produtos.map((item) => ({
+    ...item,
+    nome: remapProdutos[item.nome] || item.nome,
+    descricao: item.descricao || '',
+  }));
+
+  const categoriasAtualizadas = categorias.map((item) => ({
+    ...item,
+    nome: remapCategorias[item.nome] || item.nome,
+    descricao: item.descricao || '',
+  }));
+
+  const servicosAtualizados = servicos.map((item) => ({
+    ...item,
+    nome: remapServicos[item.nome] || item.nome,
+    descricao: item.descricao || '',
+  }));
+
+  const usuariosAtualizados = usuarios.map((item) => ({
+    ...item,
+    nome: remapUsuarios[item.nome] || item.nome,
+  }));
+
+  if (JSON.stringify(produtos) !== JSON.stringify(produtosAtualizados)) setStorage(STORAGE_KEYS.produtos, produtosAtualizados);
+  if (JSON.stringify(categorias) !== JSON.stringify(categoriasAtualizadas)) setStorage(STORAGE_KEYS.categorias, categoriasAtualizadas);
+  if (JSON.stringify(servicos) !== JSON.stringify(servicosAtualizados)) setStorage(STORAGE_KEYS.servicos, servicosAtualizados);
+  if (JSON.stringify(usuarios) !== JSON.stringify(usuariosAtualizados)) setStorage(STORAGE_KEYS.usuarios, usuariosAtualizados);
+}
+
 function seedLocalStorage() {
+  normalizarDadosIngles();
+
   if (!localStorage.getItem(STORAGE_KEYS.usuarios)) {
     setStorage(STORAGE_KEYS.usuarios, usuariosOffline);
   }
@@ -151,7 +222,7 @@ function montarAvaliacao(item) {
 function exigirLogin() {
   const usuario = obterUsuarioAtual();
   if (!usuario) {
-    throw new Error('Você precisa estar logado para acessar este recurso.');
+    throw new Error('You need to be logged in to access this resource.');
   }
   return usuario;
 }
@@ -159,7 +230,7 @@ function exigirLogin() {
 function exigirTipo(...tiposPermitidos) {
   const usuario = exigirLogin();
   if (!tiposPermitidos.includes(usuario.tipo)) {
-    throw new Error('Você não tem permissão para acessar este recurso.');
+    throw new Error('You do not have permission to access this resource.');
   }
   return usuario;
 }
@@ -222,7 +293,7 @@ async function api(caminho, opcoes = {}) {
     const produtos = listarProdutos();
     const id = Number(partes[1]);
     const produto = produtos.find((item) => Number(item.id) === id);
-    if (!produto) throw new Error('Produto não encontrado.');
+    if (!produto) throw new Error('Product not found.');
     if (method === 'GET') {
       const avaliacoes = listarAvaliacoes().filter((a) => Number(a.produto_id) === id).map(montarAvaliacao);
       return { ...montarProduto(produto), avaliacoes };
@@ -357,10 +428,10 @@ async function api(caminho, opcoes = {}) {
     if (method === 'POST') {
       const usuarios = parseStorage(STORAGE_KEYS.usuarios, usuariosOffline);
       const usuario = usuarios.find((item) => item.email.toLowerCase() === String(body.email || '').toLowerCase() && item.senha === String(body.senha || ''));
-      if (!usuario) throw new Error('E-mail ou senha inválidos.');
+      if (!usuario) throw new Error('Invalid email or password.');
       const usuarioSemSenha = normalizeUsuario(usuario);
       salvarUsuarioAtual(usuarioSemSenha);
-      return { usuario: usuarioSemSenha, mensagem: 'Login realizado com sucesso!' };
+      return { usuario: usuarioSemSenha, mensagem: 'Login successful!' };
     }
     throw new Error('Operação não suportada para login.');
   }
@@ -455,8 +526,9 @@ async function api(caminho, opcoes = {}) {
 
   if (route === '/agendamentos' || route.startsWith('/agendamentos?')) {
     const agendamentos = parseStorage(STORAGE_KEYS.agendamentos, []);
-    const usuario = exigirLogin();
+    const usuario = obterUsuarioAtual();
     if (method === 'GET') {
+      if (!usuario) return { agendamentos: agendamentos };
       const lista = usuario.tipo === 'admin' || usuario.tipo === 'funcionario'
         ? agendamentos
         : agendamentos.filter((item) => Number(item.usuario_id) === Number(usuario.id));
@@ -465,12 +537,16 @@ async function api(caminho, opcoes = {}) {
     if (method === 'POST') {
       const novoAgendamento = {
         id: proximoId(agendamentos),
-        usuario_id: usuario.id,
-        pet_id: Number(body.pet_id),
-        servico_id: Number(body.servico_id),
+        usuario_id: usuario ? usuario.id : 0,
+        pet_id: Number(body.pet_id || 0),
+        servico_id: Number(body.servico_id || 0),
+        servico_nome: body.servico_nome || 'Service',
+        pet_nome: body.pet_nome || 'Pet',
+        nome: body.nome || 'Customer',
+        contato: body.contato || '',
         data: body.data,
         horario: body.horario || '09:00',
-        status: 'Pendente',
+        status: 'Pending',
       };
       agendamentos.push(novoAgendamento);
       setStorage(STORAGE_KEYS.agendamentos, agendamentos);
@@ -504,8 +580,9 @@ async function api(caminho, opcoes = {}) {
 
   if (route === '/pedidos' || route.startsWith('/pedidos?')) {
     const pedidos = parseStorage(STORAGE_KEYS.pedidos, []);
-    const usuario = exigirLogin();
+    const usuario = obterUsuarioAtual();
     if (method === 'GET') {
+      if (!usuario) return { pedidos: pedidos };
       const lista = usuario.tipo === 'admin' || usuario.tipo === 'funcionario'
         ? pedidos
         : pedidos.filter((item) => Number(item.usuario_id) === Number(usuario.id));
@@ -516,10 +593,10 @@ async function api(caminho, opcoes = {}) {
       const total = itens.reduce((soma, item) => soma + Number(item.preco || 0) * Number(item.quantidade || 0), 0);
       const novoPedido = {
         id: proximoId(pedidos),
-        usuario_id: usuario.id,
+        usuario_id: usuario ? usuario.id : 0,
         data: new Date().toISOString(),
         total,
-        status: 'Pendente',
+        status: 'Pending',
         itens,
       };
       pedidos.push(novoPedido);
@@ -549,15 +626,17 @@ async function api(caminho, opcoes = {}) {
     const avaliacoes = listarAvaliacoes();
     if (method === 'GET') {
       const produtoId = Number(query.get('produto_id'));
-      if (!produtoId) return { avaliacoes: [] };
-      return { avaliacoes: avaliacoes.filter((a) => Number(a.produto_id) === produtoId).map(montarAvaliacao) };
+      if (produtoId) {
+        return avaliacoes.filter((a) => Number(a.produto_id) === produtoId).map(montarAvaliacao);
+      }
+      return avaliacoes.map(montarAvaliacao).slice(0, 6);
     }
     if (method === 'POST') {
-      const usuario = exigirLogin();
+      const usuario = obterUsuarioAtual();
       const novaAvaliacao = {
         id: proximoId(avaliacoes),
         produto_id: Number(body.produto_id),
-        usuario_id: usuario.id,
+        usuario_id: usuario ? usuario.id : 0,
         nota: Number(body.nota || 0),
         comentario: body.comentario || '',
       };
@@ -586,7 +665,7 @@ function navegarComTransicao(url) {
 }
 
 function formatarPreco(valor) {
-  return Number(valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  return Number(valor).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 }
 
 function renderEstrelas(nota) {
@@ -669,21 +748,21 @@ async function inicializarCabecalho() {
   const linkUsuario = document.querySelector('#link-usuario');
   if (!linkUsuario) return;
 
+  linkUsuario.setAttribute('href', 'perfil.html');
+  linkUsuario.setAttribute('title', 'Profile');
+
   try {
     const { usuario } = await get('/usuarios/me');
     if (usuario) {
-      linkUsuario.setAttribute('href', 'perfil.html');
-      linkUsuario.setAttribute('title', `Olá, ${usuario.nome}`);
+      const nome = usuario.nome || 'Customer';
+      linkUsuario.setAttribute('title', `Hello, ${nome}`);
       const linkAdmin = document.querySelector('#link-admin');
       if (linkAdmin && (usuario.tipo === 'admin' || usuario.tipo === 'funcionario')) {
         linkAdmin.style.display = 'inline-block';
       }
-    } else {
-      linkUsuario.setAttribute('href', 'login.html');
-      linkUsuario.setAttribute('title', 'Entrar');
     }
   } catch {
-    linkUsuario.setAttribute('href', 'login.html');
+    // Customer pages remain open without login.
   }
 }
 

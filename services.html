@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Serviços | Pawfect Paradise</title>
-<meta name="description" content="Banho, tosa, consulta veterinária e vacinação para o seu pet.">
+<title>Services | Pawfect Paradise</title>
+<meta name="description" content="Professional grooming, care and pet wellness services.">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -26,17 +26,17 @@
       <a href="admin.html" id="link-admin" style="display:none;">Admin</a>
     </nav>
     <div class="header-icons">
-      <a href="shop.html" class="icon-btn" title="Pesquisar">🔍</a>
-      <a href="login.html" class="icon-btn" id="link-usuario" title="Entrar">👤</a>
+      <a href="shop.html" class="icon-btn" title="Search">🔍</a>
+      <a href="perfil.html" class="icon-btn" id="link-usuario" title="Profile">👤</a>
       <a href="carrinho.html" class="icon-btn">🛒<span class="cart-count">0</span></a>
-      <button class="menu-toggle" aria-label="Abrir menu">☰</button>
+      <button class="menu-toggle" aria-label="Open menu">☰</button>
     </div>
   </div>
 </header>
 
 <div class="page-header">
   <div class="container">
-    <h1>Nossos Serviços</h1>
+    <h1>Our Services</h1>
     <p class="breadcrumb">Home / Services</p>
   </div>
 </div>
@@ -44,12 +44,12 @@
 <main class="container secao" style="padding-top:0;">
   <div class="produtos-grid" id="lista-servicos"></div>
   <div style="text-align:center; margin-top:36px;">
-    <a href="agendamento.html" class="btn btn-primary">📅 Agendar um Serviço</a>
+    <a href="agendamento.html" class="btn btn-primary">📅 Book a Service</a>
   </div>
 </main>
 
 <footer class="site-footer">
-  <div class="container footer-bottom">&copy; 2026 Pawfect Paradise. Todos os direitos reservados. Projeto acadêmico. Grupo: Jessica Hellen, Maria Leticia e Sarah Rebeca.</div>
+  <div class="container footer-bottom">&copy; 2026 Pawfect Paradise. All rights reserved. Academic project by Pawfect Dev Team.</div>
 </footer>
 
 <script src="app.js"></script>
@@ -65,7 +65,7 @@ async function carregar() {
         <span class="produto-preco">${formatarPreco(s.preco)} <small style="font-weight:400;color:var(--texto-medio);">/ ${s.duracao} min</small></span>
       </div>
       <div class="produto-card-footer">
-        <a href="agendamento.html?servico_id=${s.id}" class="btn btn-primary btn-small" style="width:100%; text-align:center; justify-content:center;">Agendar</a>
+        <a href="agendamento.html?servico_id=${s.id}" class="btn btn-primary btn-small" style="width:100%; text-align:center; justify-content:center;">Book Now</a>
       </div>
     </div>
   `).join('');

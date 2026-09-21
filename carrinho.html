@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Carrinho | Pawfect Paradise</title>
+<title>Cart | Pawfect Paradise</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -25,17 +25,17 @@
       <a href="admin.html" id="link-admin" style="display:none;">Admin</a>
     </nav>
     <div class="header-icons">
-      <a href="shop.html" class="icon-btn" title="Pesquisar">🔍</a>
-      <a href="login.html" class="icon-btn" id="link-usuario" title="Entrar">👤</a>
+      <a href="shop.html" class="icon-btn" title="Search">🔍</a>
+      <a href="perfil.html" class="icon-btn" id="link-usuario" title="Profile">👤</a>
       <a href="carrinho.html" class="icon-btn">🛒<span class="cart-count">0</span></a>
-      <button class="menu-toggle" aria-label="Abrir menu">☰</button>
+      <button class="menu-toggle" aria-label="Open menu">☰</button>
     </div>
   </div>
 </header>
 
 <div class="page-header">
   <div class="container">
-    <h1>Seu Carrinho</h1>
+    <h1>Your Cart</h1>
     <p class="breadcrumb">Home / Cart</p>
   </div>
 </div>
@@ -46,18 +46,18 @@
     <div class="carrinho-lista" id="lista-carrinho"></div>
     <div class="carrinho-resumo">
       <div class="resumo-pedido">
-        <h3>Resumo do Pedido</h3>
-        <div class="resumo-linha"><span>Subtotal</span><span id="resumo-subtotal">R$ 0,00</span></div>
-        <div class="resumo-linha"><span>Frete</span><span id="resumo-frete">Grátis</span></div>
-        <div class="resumo-linha total"><span>Total</span><span id="resumo-total">R$ 0,00</span></div>
-        <button class="btn btn-primary" id="btn-finalizar" style="width:100%; justify-content:center; margin-top:16px;">Finalizar Pedido</button>
+        <h3>Order Summary</h3>
+        <div class="resumo-linha"><span>Subtotal</span><span id="resumo-subtotal">$ 0.00</span></div>
+        <div class="resumo-linha"><span>Shipping</span><span id="resumo-frete">Free</span></div>
+        <div class="resumo-linha total"><span>Total</span><span id="resumo-total">$ 0.00</span></div>
+        <button class="btn btn-primary" id="btn-finalizar" style="width:100%; justify-content:center; margin-top:16px;">Checkout</button>
       </div>
     </div>
   </div>
 </main>
 
 <footer class="site-footer">
-  <div class="container footer-bottom">&copy; 2026 Pawfect Paradise. Todos os direitos reservados. Projeto acadêmico. Grupo: Jessica Hellen, Maria Leticia e Sarah Rebeca.</div>
+  <div class="container footer-bottom">&copy; 2026 Pawfect Paradise. All rights reserved. Academic project by Pawfect Dev Team.</div>
 </footer>
 
 <script src="app.js"></script>
@@ -69,7 +69,7 @@ async function carregarCarrinho() {
   const lista = document.querySelector('#lista-carrinho');
 
   if (carrinho.length === 0) {
-    lista.innerHTML = `<div class="empty-state"><div class="emoji">🛒</div><p>Seu carrinho está vazio.</p><a href="shop.html" class="btn btn-primary" style="margin-top:12px;">Ir às compras</a></div>`;
+    lista.innerHTML = `<div class="empty-state"><div class="emoji">🛒</div><p>Your cart is empty.</p><a href="shop.html" class="btn btn-primary" style="margin-top:12px;">Start Shopping</a></div>`;
     document.querySelector('#btn-finalizar').disabled = true;
     atualizarResumo(0);
     return;
@@ -94,7 +94,7 @@ async function carregarCarrinho() {
           <button onclick="mudarQtd(${p.id}, ${item.quantidade + 1})">+</button>
         </div>
         <strong>${formatarPreco(p.preco * item.quantidade)}</strong>
-        <button class="btn btn-danger btn-small" onclick="removerItem(${p.id})">Remover</button>
+        <button class="btn btn-danger btn-small" onclick="removerItem(${p.id})">Remove</button>
       </div>
     `;
   }).join('');
@@ -122,6 +122,11 @@ function removerItem(produtoId) {
 document.querySelector('#btn-finalizar').addEventListener('click', async () => {
   const msg = document.querySelector('#mensagem-carrinho');
   const carrinho = obterCarrinho();
+  if (!carrinho.length) {
+    mostrarMensagem(msg, 'Your cart is empty. Add some products before checkout.', 'erro');
+    return;
+  }
+
   const itens = carrinho.map((item) => {
     const produto = produtosCache[item.produto_id];
     return {
@@ -131,19 +136,21 @@ document.querySelector('#btn-finalizar').addEventListener('click', async () => {
       produto_imagem: produto.imagem,
     };
   });
+
   const valorTotal = itens.reduce((total, item) => total + item.preco * item.quantidade, 0);
   const pedidos = JSON.parse(localStorage.getItem('pawfect_pedidos') || '[]');
   const pedido = {
     id: Date.now(),
     data: new Date().toISOString(),
-    status: 'Pendente',
+    status: 'Pending',
     valor_total: valorTotal,
     itens,
+    usuario_id: 0,
   };
   pedidos.unshift(pedido);
   localStorage.setItem('pawfect_pedidos', JSON.stringify(pedidos));
   limparCarrinho();
-  mostrarMensagem(msg, `Pedido #${pedido.id} salvo com sucesso! Total: ${formatarPreco(valorTotal)}`, 'sucesso');
+  mostrarMensagem(msg, `Order #${pedido.id} placed successfully! Total: ${formatarPreco(valorTotal)}`, 'sucesso');
   setTimeout(() => navegarComTransicao('meus-pedidos.html'), 1200);
 });
 

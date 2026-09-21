@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Criar Conta | Pawfect Paradise</title>
+<title>Create Account | Pawfect Paradise</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -34,35 +34,35 @@
 
 <main>
   <div class="form-card">
-    <h2>🐾 Crie sua conta</h2>
-    <p class="subtitulo">Cadastre-se para agendar serviços e comprar</p>
+    <h2>🐾 Create your account</h2>
+    <p class="subtitulo">Sign up to book services and shop</p>
     <div class="mensagem" id="mensagem"></div>
     <form id="form-cadastro">
       <div class="campo">
-        <label for="nome">Nome completo <span class="obrigatorio">*</span></label>
+        <label for="nome">Full name <span class="obrigatorio">*</span></label>
         <input type="text" id="nome" required>
       </div>
       <div class="campo">
-        <label for="email">E-mail <span class="obrigatorio">*</span></label>
+        <label for="email">Email <span class="obrigatorio">*</span></label>
         <input type="email" id="email" required>
       </div>
       <div class="campo">
-        <label for="senha">Senha <span class="obrigatorio">*</span></label>
+        <label for="senha">Password <span class="obrigatorio">*</span></label>
         <input type="password" id="senha" required minlength="6">
-        <small style="color:var(--texto-medio);">Mínimo de 6 caracteres</small>
+        <small style="color:var(--texto-medio);">Minimum 6 characters</small>
       </div>
       <div class="campo">
-        <label for="senha2">Confirmar senha <span class="obrigatorio">*</span></label>
+        <label for="senha2">Confirm password <span class="obrigatorio">*</span></label>
         <input type="password" id="senha2" required minlength="6">
       </div>
-      <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Cadastrar</button>
+      <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Create account</button>
     </form>
-    <p class="form-rodape">Já tem uma conta? <a href="login.html" style="color:var(--rosa-principal); font-weight:600;">Entrar</a></p>
+    <p class="form-rodape">Already have an account? <a href="login.html" style="color:var(--rosa-principal); font-weight:600;">Log in</a></p>
   </div>
 </main>
 
 <footer class="site-footer">
-  <div class="container footer-bottom">&copy; 2026 Pawfect Paradise. Todos os direitos reservados. Projeto acadêmico. Grupo: Jessica Hellen, Maria Leticia e Sarah Rebeca.</div>
+  <div class="container footer-bottom">&copy; 2026 Pawfect Paradise. All rights reserved. Academic project by Pawfect Dev Team.</div>
 </footer>
 
 <script src="app.js"></script>
@@ -72,7 +72,7 @@ document.querySelector('#form-cadastro').addEventListener('submit', async (e) =>
   const msg = document.querySelector('#mensagem');
   const senha = document.querySelector('#senha').value;
   const senha2 = document.querySelector('#senha2').value;
-  if (senha !== senha2) return mostrarMensagem(msg, 'As senhas não coincidem.', 'erro');
+  if (senha !== senha2) return mostrarMensagem(msg, 'Passwords do not match.', 'erro');
 
   try {
     await post('/usuarios', {
@@ -80,7 +80,7 @@ document.querySelector('#form-cadastro').addEventListener('submit', async (e) =>
       email: document.querySelector('#email').value,
       senha,
     });
-    mostrarMensagem(msg, 'Cadastro realizado com sucesso!', 'sucesso');
+    mostrarMensagem(msg, 'Account created successfully!', 'sucesso');
     setTimeout(() => { window.location.href = 'index.html'; }, 800);
   } catch (err) {
     mostrarMensagem(msg, err.message, 'erro');

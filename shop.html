@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shop | Pawfect Paradise</title>
-<meta name="description" content="Explore todos os produtos da Pawfect Paradise para cães e gatos.">
+<meta name="description" content="Explore the Pawfect Paradise products for dogs and cats.">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -26,10 +26,10 @@
       <a href="admin.html" id="link-admin" style="display:none;">Admin</a>
     </nav>
     <div class="header-icons">
-      <a href="shop.html" class="icon-btn" title="Pesquisar" aria-label="Pesquisar produtos">🔍</a>
-      <a href="login.html" class="icon-btn" id="link-usuario" title="Entrar" aria-label="Entrar ou ver perfil">👤</a>
-      <a href="carrinho.html" class="icon-btn" aria-label="Ver carrinho">🛒<span class="cart-count">0</span></a>
-      <button class="menu-toggle" aria-label="Abrir menu">☰</button>
+      <a href="shop.html" class="icon-btn" title="Search" aria-label="Search products">🔍</a>
+      <a href="perfil.html" class="icon-btn" id="link-usuario" title="Profile" aria-label="View profile">👤</a>
+      <a href="carrinho.html" class="icon-btn" aria-label="View cart">🛒<span class="cart-count">0</span></a>
+      <button class="menu-toggle" aria-label="Open menu">☰</button>
     </div>
   </div>
 </header>
@@ -43,23 +43,23 @@
 
 <main class="container secao" style="padding-top:0;">
   <div class="barra-busca">
-    <input type="text" id="campo-busca" placeholder="Buscar produtos... (ex: ração, brinquedo)">
-    <button class="btn btn-primary" id="btn-buscar">🔍 Buscar</button>
+    <input type="text" id="campo-busca" placeholder="Search products... (e.g. food, toy)">
+    <button class="btn btn-primary" id="btn-buscar">🔍 Search</button>
   </div>
 
   <div class="shop-layout">
     <aside class="filtros">
-      <h4>Categorias</h4>
+      <h4>Categories</h4>
       <div id="filtro-categorias">
-        <label><input type="radio" name="categoria" value="" checked> Todas</label>
+        <label><input type="radio" name="categoria" value="" checked> All</label>
       </div>
-      <h4>Ordenar por</h4>
+      <h4>Sort by</h4>
       <select id="filtro-ordenar">
-        <option value="">Mais recentes</option>
-        <option value="preco_asc">Preço: menor para maior</option>
-        <option value="preco_desc">Preço: maior para menor</option>
-        <option value="nome_asc">Nome: A-Z</option>
-        <option value="nome_desc">Nome: Z-A</option>
+        <option value="">Most recent</option>
+        <option value="preco_asc">Price: low to high</option>
+        <option value="preco_desc">Price: high to low</option>
+        <option value="nome_asc">Name: A-Z</option>
+        <option value="nome_desc">Name: Z-A</option>
       </select>
     </aside>
 
@@ -67,7 +67,7 @@
       <div class="produtos-grid" id="lista-produtos"></div>
       <div class="empty-state" id="estado-vazio" style="display:none;">
         <div class="emoji">🐾</div>
-        <p>Nenhum produto encontrado com esses filtros.</p>
+        <p>No products found with these filters.</p>
       </div>
       <div class="paginacao" id="paginacao"></div>
     </div>
@@ -75,7 +75,7 @@
 </main>
 
 <footer class="site-footer">
-  <div class="container footer-bottom">&copy; 2026 Pawfect Paradise. Todos os direitos reservados. Projeto acadêmico. Grupo: Jessica Hellen, Maria Leticia e Sarah Rebeca.</div>
+  <div class="container footer-bottom">&copy; 2026 Pawfect Paradise. All rights reserved. Academic project by Pawfect Dev Team.</div>
 </footer>
 
 <script src="app.js"></script>
@@ -88,7 +88,7 @@ async function carregarFiltroCategorias() {
   const categorias = await get('/categorias');
   const container = document.querySelector('#filtro-categorias');
   const categoriaSelecionada = params.get('categoria_id') || '';
-  container.innerHTML = `<label><input type="radio" name="categoria" value="" ${!categoriaSelecionada ? 'checked' : ''}> Todas</label>` +
+  container.innerHTML = `<label><input type="radio" name="categoria" value="" ${!categoriaSelecionada ? 'checked' : ''}> All</label>` +
     categorias.map((c) => `
       <label><input type="radio" name="categoria" value="${c.id}" ${String(c.id) === categoriaSelecionada ? 'checked' : ''}> ${c.nome}</label>
     `).join('');
